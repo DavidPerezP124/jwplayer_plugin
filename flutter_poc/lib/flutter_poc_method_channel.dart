@@ -11,7 +11,14 @@ class MethodChannelFlutterPoc extends FlutterPocPlatform {
 
   @override
   Future<String?> getPlatformVersion() async {
-    final version = await methodChannel.invokeMethod<String>('getPlatformVersion');
+    final version =
+        await methodChannel.invokeMethod<String>('getPlatformVersion');
     return version;
+  }
+
+  @override
+  Future<String?> play() async {
+    final playerView = await methodChannel.invokeMethod<String>('play');
+    return playerView;
   }
 }

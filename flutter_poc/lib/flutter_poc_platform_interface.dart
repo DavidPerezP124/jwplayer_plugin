@@ -14,7 +14,7 @@ abstract class FlutterPocPlatform extends PlatformInterface {
   ///
   /// Defaults to [MethodChannelFlutterPoc].
   static FlutterPocPlatform get instance => _instance;
-  
+
   /// Platform-specific implementations should set this with their own
   /// platform-specific class that extends [FlutterPocPlatform] when
   /// they register themselves.
@@ -25,5 +25,9 @@ abstract class FlutterPocPlatform extends PlatformInterface {
 
   Future<String?> getPlatformVersion() {
     throw UnimplementedError('platformVersion() has not been implemented.');
+  }
+
+  Future<String?> play() {
+    throw UnimplementedError('play() has not been implemented.');
   }
 }

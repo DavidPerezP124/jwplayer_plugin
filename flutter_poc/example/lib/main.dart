@@ -31,12 +31,11 @@ class _MyAppState extends State<MyApp> {
     // Platform messages may fail, so we use a try/catch PlatformException.
     // We also handle the message potentially returning null.
     try {
-      platformVersion =
-          await _flutterPocPlugin.getPlatformVersion() ?? 'Unknown platform version';
+      platformVersion = await _flutterPocPlugin.getPlatformVersion() ??
+          'Unknown platform version';
     } on PlatformException {
       platformVersion = 'Failed to get platform version.';
     }
-
     // If the widget was removed from the tree while the asynchronous platform
     // message was in flight, we want to discard the reply rather than calling
     // setState to update our non-existent appearance.
@@ -54,10 +53,58 @@ class _MyAppState extends State<MyApp> {
         appBar: AppBar(
           title: const Text('Plugin example app'),
         ),
-        body: Center(
-          child: Text('Running on: $_platformVersion\n'),
+        body: Column(
+          children: [
+            Center(
+              child: Text('Running on: $_platformVersion\n'),
+            ),
+            SizedBox(
+              height: 400,
+              child: JWPlayerWidget(),
+            ),
+          ],
         ),
       ),
+    );
+  }
+}
+
+class JWPlayerWidget extends StatelessWidget {
+  JWPlayerWidget({super.key});
+  var _defaultTargetPlatform = TargetPlatform.iOS;
+  @override
+  Widget build(BuildContext context) {
+    // This is used in the platform side to register the view.
+    const String viewType = '<platform-view-type>';
+    // Pass parameters to the platform side.
+    final Map<String, dynamic> creationParams = <String, dynamic>{};
+
+    switch (_defaultTargetPlatform) {
+      case TargetPlatform.android:
+      // return widget on Android.
+      case TargetPlatform.iOS:
+        return const IOSWidget();
+      default:
+        throw UnsupportedError('Unsupported platform view');
+    }
+  }
+}
+
+class IOSWidget extends StatelessWidget {
+  const IOSWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    // This is used in the platform side to register the view.
+    const String viewType = '<platform-view-type>';
+    // Pass parameters to the platform side.
+    final Map<String, dynamic> creationParams = <String, dynamic>{};
+
+    return UiKitView(
+      viewType: viewType,
+      layoutDirection: TextDirection.ltr,
+      creationParams: creationParams,
+      creationParamsCodec: const StandardMessageCodec(),
     );
   }
 }
