@@ -24,7 +24,7 @@ class ViewLayout (
 
     private val owner: LifecycleOwner
 ) :
-    LinearLayout(context), OnFullscreenListener {
+    LinearLayout(context) {
     /**
      * Reference to the [JWPlayerView]
      */
@@ -57,68 +57,6 @@ class ViewLayout (
             .build()
         // Call setup before binding the ViewModels because setup updates the ViewModels
         mPlayer!!.setup(config)
-    }
-
-    fun setFile(file: String?) {
-    }
-
-    fun setAutoPlay(autoPlay: Boolean) {
-    }
-
-    public override fun onConfigurationChanged(newConfig: Configuration) {
-
-        /* set fullscreen when the device is rotated to landscape */
-        super.onConfigurationChanged(newConfig)
-    }
-
-    override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
-        /* exit fullscreen when the user pressed the Back button */
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-        }
-        return super.onKeyDown(keyCode, event)
-    }
-
-    override fun onFullscreen(fullscreenEvent: FullscreenEvent) {
-        val actionBar = activity.actionBar
-        if (actionBar != null) {
-            if (fullscreenEvent.fullscreen) {
-                actionBar.hide()
-            } else {
-                actionBar.show()
-            }
-        }
-    }
-
-    fun retryFailedPlayback() {
-        try {
-
-            /* retry playback */
-        } catch (e: Exception) { /* ignore */
-        }
-    }
-
-    fun onHostResume() {
-        try {
-
-            /* let JW Player know that the app has returned from the background */
-        } catch (e: Exception) { /* ignore */
-        }
-    }
-
-    fun onHostPause() {
-        try {
-
-            /* let JW Player know that the app is going to the background */
-        } catch (e: Exception) { /* ignore */
-        }
-    }
-
-    fun onHostDestroy() {
-        try {
-
-
-        } catch (e: Exception) { /* ignore */
-        }
     }
 
     init {
