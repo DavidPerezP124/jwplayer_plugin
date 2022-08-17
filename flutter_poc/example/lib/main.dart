@@ -1,4 +1,9 @@
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'dart:async';
 
 import 'package:flutter/services.dart';
@@ -9,7 +14,7 @@ void main() {
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({Key key}) : super(key: key);
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -50,28 +55,23 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Plugin example app'),
-        ),
-        body: Column(
-          children: [
-            Center(
-              child: Text('Running on: $_platformVersion\n'),
-            ),
-            SizedBox(
-              height: 400,
+          appBar: AppBar(
+            title: const Text('Plugin example app'),
+          ),
+          body: Center(
+            child: SizedBox(
+              height: 300,
               child: JWPlayerWidget(),
             ),
-          ],
-        ),
-      ),
+          )),
     );
   }
 }
 
 class JWPlayerWidget extends StatelessWidget {
-  JWPlayerWidget({super.key});
-  var _defaultTargetPlatform = TargetPlatform.iOS;
+  JWPlayerWidget({key});
+  final _defaultTargetPlatform = Platform.operatingSystem;
+
   @override
   Widget build(BuildContext context) {
     // This is used in the platform side to register the view.
@@ -80,9 +80,9 @@ class JWPlayerWidget extends StatelessWidget {
     final Map<String, dynamic> creationParams = <String, dynamic>{};
 
     switch (_defaultTargetPlatform) {
-      case TargetPlatform.android:
-      // return widget on Android.
-      case TargetPlatform.iOS:
+      case "android":
+        return const AndroidWidget();
+      case "ios":
         return const IOSWidget();
       default:
         throw UnsupportedError('Unsupported platform view');
@@ -91,7 +91,7 @@ class JWPlayerWidget extends StatelessWidget {
 }
 
 class IOSWidget extends StatelessWidget {
-  const IOSWidget({super.key});
+  const IOSWidget({key});
 
   @override
   Widget build(BuildContext context) {
@@ -105,6 +105,42 @@ class IOSWidget extends StatelessWidget {
       layoutDirection: TextDirection.ltr,
       creationParams: creationParams,
       creationParamsCodec: const StandardMessageCodec(),
+    );
+  }
+}
+
+class AndroidWidget extends StatelessWidget {
+  const AndroidWidget({key});
+  @override
+  Widget build(BuildContext context) {
+    // This is used in the platform side to register the view.
+    const String viewType = '<platform-view-type>';
+    // Pass parameters to the platform side.
+    final Map<String, dynamic> creationParams = <String, dynamic>{};
+
+    return PlatformViewLink(
+      viewType: viewType,
+      surfaceFactory: (context, controller) {
+        return AndroidViewSurface(
+          controller: controller as AndroidViewController,
+          gestureRecognizers: const <Factory<OneSequenceGestureRecognizer>>{},
+          hitTestBehavior: PlatformViewHitTestBehavior.opaque,
+        );
+      },
+      onCreatePlatformView: (params) {
+        return PlatformViewsService.initSurfaceAndroidView(
+          id: params.id,
+          viewType: viewType,
+          layoutDirection: TextDirection.ltr,
+          creationParams: creationParams,
+          creationParamsCodec: const StandardMessageCodec(),
+          onFocus: () {
+            params.onFocusChanged(true);
+          },
+        )
+          ..addOnPlatformViewCreatedListener(params.onPlatformViewCreated)
+          ..create();
+      },
     );
   }
 }

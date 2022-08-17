@@ -23,11 +23,11 @@ abstract class FlutterPocPlatform extends PlatformInterface {
     _instance = instance;
   }
 
-  Future<String?> getPlatformVersion() {
+  Future<String> getPlatformVersion() {
     throw UnimplementedError('platformVersion() has not been implemented.');
   }
 
-  Future<String?> play() {
+  Future<String> play() {
     throw UnimplementedError('play() has not been implemented.');
   }
 }
