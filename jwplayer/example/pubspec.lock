@@ -61,18 +61,7 @@ packages:
       name: flutter_lints
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD:jwplayer/example/pubspec.lock
-    version: "2.0.1"
-=======
     version: "1.0.4"
-  flutter_poc:
-    dependency: "direct main"
-    description:
-      path: ".."
-      relative: true
-    source: path
-    version: "0.0.1"
->>>>>>> main:flutter_poc/example/pubspec.lock
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -194,9 +183,5 @@ packages:
     source: hosted
     version: "2.1.2"
 sdks:
-<<<<<<< HEAD:jwplayer/example/pubspec.lock
   dart: ">=2.19.0-102.0.dev <3.0.0"
-=======
-  dart: ">=2.17.0-0 <3.0.0"
->>>>>>> main:flutter_poc/example/pubspec.lock
   flutter: ">=2.5.0"

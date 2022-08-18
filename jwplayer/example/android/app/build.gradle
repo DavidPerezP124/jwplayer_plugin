@@ -80,22 +80,10 @@ dependencies {
     implementation 'com.google.android.material:material:1.5.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
 
-
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-<<<<<<< HEAD:jwplayer/example/android/app/build.gradle
-     def sdkVersion = '4.6.0'
-    def exoplayerVersion = '2.16.1'
-    implementation 'androidx.appcompat:appcompat:1.4.1'
-    implementation 'com.google.android.material:material:1.5.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
 
-
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-=======
->>>>>>> main:flutter_poc/example/android/app/build.gradle
     implementation "com.jwplayer:jwplayer-core:${sdkVersion}"
     implementation ("com.jwplayer:jwplayer-common:${sdkVersion}")
-
 
     implementation("com.google.android.exoplayer:exoplayer-common:${exoplayerVersion}")
     implementation("com.google.android.exoplayer:exoplayer-extractor:${exoplayerVersion}")
