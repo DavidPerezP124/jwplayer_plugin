@@ -30,18 +30,21 @@ class _JWVideoPlayerState extends State<JWVideoPlayer> {
 
   @override
   void initState() {
-    setTextureId();
     super.initState();
+    setTextureId();
   }
 
   Future<void> setTextureId() async {
-    _textureId = await _videoPlayerPlatform.create();
+    final id = await _videoPlayerPlatform.create();
+    setState(() {
+      _textureId = id;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return _textureId == null
-        ? Center(child: CircularProgressIndicator())
+        ? const Center(child: CircularProgressIndicator())
         : _videoPlayerPlatform.buildView(_textureId);
   }
 }

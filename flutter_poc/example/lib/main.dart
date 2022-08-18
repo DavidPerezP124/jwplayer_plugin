@@ -62,16 +62,16 @@ class _MyAppState extends State<MyApp> {
           body: Center(
             child: ListView(
               children: const [
-                SizedBox(
-                  height: 300,
+                AspectRatio(
+                  aspectRatio: 1.2,
                   child: JWVideoPlayer(),
                 ),
-                SizedBox(
-                  height: 300,
+                AspectRatio(
+                  aspectRatio: 1.2,
                   child: JWVideoPlayer(),
                 ),
-                SizedBox(
-                  height: 300,
+                AspectRatio(
+                  aspectRatio: 1.2,
                   child: JWVideoPlayer(),
                 ),
               ],

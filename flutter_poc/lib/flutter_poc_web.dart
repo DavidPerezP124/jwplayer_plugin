@@ -3,7 +3,7 @@
 // package as the core of your plugin.
 // ignore: avoid_web_libraries_in_flutter
 import 'dart:html' as html;
-import 'dart:ui' as ui;
+import 'shims/dart_ui.dart' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 
@@ -38,12 +38,13 @@ class FlutterPocWeb extends FlutterPocPlatform {
     final html.IFrameElement div = html.IFrameElement();
 
     div.src = "https://cdn.jwplayer.com/players/1x2AZ55n-4SploSrk.html";
-    div.onLoad.listen((_) {
-      print('onLoad');
+
+    div.setAttribute("style",
+        "border: none; display: block; margin: 0; width: 100%; height: 100%;");
+    div.onLoad.listen((event) {
+      print('onLoad: ${event.target.toString()}');
     });
-    div.onLoadedData.listen((data) {
-      print('onLoadedData $data');
-    });
+
     ui.platformViewRegistry
         .registerViewFactory('player_$_currentView', (int viewId) => div);
 
