@@ -13,14 +13,13 @@ A new Flutter plugin project.
   s.license          = { :file => '../LICENSE' }
   s.author           = { 'Your Company' => 'email@example.com' }
   s.source           = { :path => '.' }
-  s.source_files = 'Classes/**/*'
+  s.source_files = 'Classes/**/*', 'JWPlayerKit.xcframework/**/*'
   s.dependency 'Flutter'
   s.dependency 'JWPlayerKit'
-  s.preserve_paths = 'JWPlayerKit/**/*'
-  s.vendored_frameworks = 'myFramework.framework'
+  s.vendored_frameworks = 'myFramework.framework' 'JWPlayerKit.xcframework'
   s.platform = :ios, '10.0'
   s.static_framework = true
   # Flutter.framework does not contain a i386 slice.
-  s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES', 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386' }
+  s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES', 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
   s.swift_version = '5.0'
 end

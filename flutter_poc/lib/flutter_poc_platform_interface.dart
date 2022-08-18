@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 import 'flutter_poc_method_channel.dart';
@@ -23,11 +24,27 @@ abstract class FlutterPocPlatform extends PlatformInterface {
     _instance = instance;
   }
 
+  /// Initializes the platform interface and disposes all existing players.
+  ///
+  /// This method is called when the plugin is first initialized
+  /// and on every full restart.
+  Future<void> init() {
+    throw UnimplementedError('init() has not been implemented.');
+  }
+
+  Future<int> create() {
+    throw UnimplementedError('create() has not been implemented.');
+  }
+
   Future<String> getPlatformVersion() {
     throw UnimplementedError('platformVersion() has not been implemented.');
   }
 
   Future<String> play() {
     throw UnimplementedError('play() has not been implemented.');
+  }
+
+  Widget buildView(int viewId) {
+    throw UnimplementedError('buildView() has not been implemented.');
   }
 }

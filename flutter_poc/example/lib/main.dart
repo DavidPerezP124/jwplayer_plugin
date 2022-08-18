@@ -8,6 +8,7 @@ import 'dart:async';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_poc/flutter_poc.dart';
+import 'package:flutter_poc/jwplayer.dart';
 
 void main() {
   runApp(const MyApp());
@@ -56,91 +57,26 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       home: Scaffold(
           appBar: AppBar(
-            title: const Text('Plugin example app'),
+            title: Text('Running on: $_platformVersion'),
           ),
           body: Center(
-            child: SizedBox(
-              height: 300,
-              child: JWPlayerWidget(),
+            child: ListView(
+              children: const [
+                SizedBox(
+                  height: 300,
+                  child: JWVideoPlayer(),
+                ),
+                SizedBox(
+                  height: 300,
+                  child: JWVideoPlayer(),
+                ),
+                SizedBox(
+                  height: 300,
+                  child: JWVideoPlayer(),
+                ),
+              ],
             ),
           )),
-    );
-  }
-}
-
-class JWPlayerWidget extends StatelessWidget {
-  JWPlayerWidget({key});
-  final _defaultTargetPlatform = Platform.operatingSystem;
-
-  @override
-  Widget build(BuildContext context) {
-    // This is used in the platform side to register the view.
-    const String viewType = '<platform-view-type>';
-    // Pass parameters to the platform side.
-    final Map<String, dynamic> creationParams = <String, dynamic>{};
-
-    switch (_defaultTargetPlatform) {
-      case "android":
-        return const AndroidWidget();
-      case "ios":
-        return const IOSWidget();
-      default:
-        throw UnsupportedError('Unsupported platform view');
-    }
-  }
-}
-
-class IOSWidget extends StatelessWidget {
-  const IOSWidget({key});
-
-  @override
-  Widget build(BuildContext context) {
-    // This is used in the platform side to register the view.
-    const String viewType = '<platform-view-type>';
-    // Pass parameters to the platform side.
-    final Map<String, dynamic> creationParams = <String, dynamic>{};
-
-    return UiKitView(
-      viewType: viewType,
-      layoutDirection: TextDirection.ltr,
-      creationParams: creationParams,
-      creationParamsCodec: const StandardMessageCodec(),
-    );
-  }
-}
-
-class AndroidWidget extends StatelessWidget {
-  const AndroidWidget({key});
-  @override
-  Widget build(BuildContext context) {
-    // This is used in the platform side to register the view.
-    const String viewType = '<platform-view-type>';
-    // Pass parameters to the platform side.
-    final Map<String, dynamic> creationParams = <String, dynamic>{};
-
-    return PlatformViewLink(
-      viewType: viewType,
-      surfaceFactory: (context, controller) {
-        return AndroidViewSurface(
-          controller: controller as AndroidViewController,
-          gestureRecognizers: const <Factory<OneSequenceGestureRecognizer>>{},
-          hitTestBehavior: PlatformViewHitTestBehavior.opaque,
-        );
-      },
-      onCreatePlatformView: (params) {
-        return PlatformViewsService.initSurfaceAndroidView(
-          id: params.id,
-          viewType: viewType,
-          layoutDirection: TextDirection.ltr,
-          creationParams: creationParams,
-          creationParamsCodec: const StandardMessageCodec(),
-          onFocus: () {
-            params.onFocusChanged(true);
-          },
-        )
-          ..addOnPlatformViewCreatedListener(params.onPlatformViewCreated)
-          ..create();
-      },
     );
   }
 }
