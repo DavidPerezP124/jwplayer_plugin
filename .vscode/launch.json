@@ -5,41 +5,21 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "flutter_poc",
-            "cwd": "flutter_poc",
-            "request": "launch",
-            "type": "dart"
-        },
-        {
-            "name": "flutter_poc (profile mode)",
-            "cwd": "flutter_poc",
-            "request": "launch",
-            "type": "dart",
-            "flutterMode": "profile"
-        },
-        {
-            "name": "flutter_poc (release mode)",
-            "cwd": "flutter_poc",
-            "request": "launch",
-            "type": "dart",
-            "flutterMode": "release"
-        },
-        {
             "name": "example",
-            "cwd": "flutter_poc/example",
+            "cwd": "jwplayer/example",
             "request": "launch",
             "type": "dart"
         },
         {
             "name": "example (profile mode)",
-            "cwd": "flutter_poc/example",
+            "cwd": "jwplayer/example",
             "request": "launch",
             "type": "dart",
             "flutterMode": "profile"
         },
         {
             "name": "example (release mode)",
-            "cwd": "flutter_poc/example",
+            "cwd": "jwplayer/example",
             "request": "launch",
             "type": "dart",
             "flutterMode": "release"
