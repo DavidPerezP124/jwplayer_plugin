@@ -23,6 +23,26 @@
             "request": "launch",
             "type": "dart",
             "flutterMode": "release"
+        },
+        {
+            "name": "Demo",
+            "cwd": "player_demo",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "Demo (profile mode)",
+            "cwd": "jplayer_demo",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "Demo (release mode)",
+            "cwd": "player_demo",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
         }
     ]
 }

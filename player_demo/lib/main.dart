@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:player_demo/src/utils/license_util.dart';
 import 'package:provider/provider.dart';
 
 import 'src/pages/details_page.dart';
 import 'src/pages/home_page.dart';
 import 'src/providers/videos_provider.dart';
 
-void main() => runApp(const AppState());
+void main() async {
+  await dotenv.load(fileName: ".env");
+  runApp(const AppState());
+}
 
 class AppState extends StatelessWidget {
   const AppState({super.key});
@@ -14,7 +19,10 @@ class AppState extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: ( _ ) => VideoProvider(), lazy: false,)
+        ChangeNotifierProvider(
+          create: (_) => VideoProvider(),
+          lazy: false,
+        )
       ],
       child: MyApp(),
     );
@@ -31,12 +39,11 @@ class MyApp extends StatelessWidget {
         title: 'Video Demo',
         initialRoute: 'home',
         routes: {
-          'home': ( _ ) => HomePage(), 
-          'details': ( _ ) => DetailsPage(),
+          'home': (_) => const HomePage(),
+          'details': (_) => const DetailsPage(),
         },
         // theme: ThemeData.dark(),
         theme: ThemeData.light()
-            .copyWith(appBarTheme: AppBarTheme(color: Colors.black87))
-    );
+            .copyWith(appBarTheme: AppBarTheme(color: Colors.black87)));
   }
 }

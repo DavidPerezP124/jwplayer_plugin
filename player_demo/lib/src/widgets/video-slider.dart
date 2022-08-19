@@ -13,24 +13,18 @@ class VideoSlider extends StatelessWidget {
     return Container(
       width: double.infinity,
       height: 260,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-
-          if (this.title != null) 
-            Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20),
-                child: Text(this.title!,
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold))
-            ),
-          
-        SizedBox( height: 8 ),
-
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        if (this.title != null)
+          Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              child: Text(this.title!,
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold))),
+        SizedBox(height: 8),
         Expanded(
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: videos.length,
-            itemBuilder: (_, int index) => _VideoPoster( video: videos[index] ),
+            itemBuilder: (_, int index) => _VideoPoster(video: videos[index]),
           ),
         ),
       ]),
@@ -45,7 +39,6 @@ class _VideoPoster extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     video.heroId = 'slider-${video.mediaid}';
 
     return Container(
@@ -54,17 +47,17 @@ class _VideoPoster extends StatelessWidget {
       margin: EdgeInsets.symmetric(horizontal: 10),
       child: Column(
         children: [
-
           GestureDetector(
-            onTap: () => Navigator.pushNamed(context, 'details', arguments: video),
+            onTap: () =>
+                Navigator.pushNamed(context, 'details', arguments: video),
             child: Hero(
               tag: video.heroId!,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(20),
                 child: FadeInImage(
-                  placeholder: AssetImage('assets/no-image.jpg'), 
+                  placeholder: AssetImage('assets/no-image.jpg'),
                   // image: AssetImage('assets/no-image.jpg'),
-                  image: NetworkImage(video.image),
+                  image: NetworkImage(video.image ?? ""),
                   width: 300,
                   height: 150,
                   fit: BoxFit.cover,
@@ -72,18 +65,15 @@ class _VideoPoster extends StatelessWidget {
               ),
             ),
           ),
-
           SizedBox(
             height: 5,
           ),
-
           Text(
             video.title,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
             textAlign: TextAlign.center,
           )
-
         ],
       ),
     );

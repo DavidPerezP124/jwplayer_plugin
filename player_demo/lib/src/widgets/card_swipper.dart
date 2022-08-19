@@ -37,12 +37,12 @@ class CardSwipper extends StatelessWidget {
         itemHeight: 400.0,
 
         itemBuilder: (_, int index) {
-
           final video = videos[index];
           video.heroId = 'swiper-${video.mediaid}+${DateTime.now()}';
 
           return GestureDetector(
-            onTap: () => Navigator.pushNamed(context, 'details', arguments: video),
+            onTap: () =>
+                Navigator.pushNamed(context, 'details', arguments: video),
             child: Hero(
               tag: video.heroId!,
               child: _CardWidget(video: video),
@@ -66,24 +66,24 @@ class _CardWidget extends StatelessWidget {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(12),
         child: GridTile(
-            child: FadeInImage(
+          child: FadeInImage(
               placeholder: AssetImage('assets/no-image.jpg'),
               // image: AssetImage('assets/no-image.jpg'),
               image: NetworkImage(video.image),
               fit: BoxFit.cover),
-            footer: Container(
-              padding: EdgeInsets.all(8),
-              color: Colors.black.withOpacity(0.4),
-              child: Text(
-                video.title,
-                textAlign: TextAlign.right,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white.withOpacity(0.9),
-                  fontSize: 16,
-                ),
+          footer: Container(
+            padding: EdgeInsets.all(8),
+            color: Colors.black.withOpacity(0.4),
+            child: Text(
+              video.title,
+              textAlign: TextAlign.right,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.white.withOpacity(0.9),
+                fontSize: 16,
               ),
             ),
+          ),
         ),
       ),
     );
