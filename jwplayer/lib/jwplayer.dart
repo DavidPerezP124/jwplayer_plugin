@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jwplayer/jwplayer_configuration.dart';
 
 import 'jwplayer_platform_interface.dart';
 
@@ -17,7 +18,8 @@ JwplayerPlatform get _videoPlayerPlatform {
 
 class JWVideoPlayer extends StatefulWidget {
   /// Uses the given [controller] for all video rendered in this widget.
-  const JWVideoPlayer({Key? key}) : super(key: key);
+  const JWVideoPlayer({Key? key, this.config}) : super(key: key);
+  final JwPlayerConfiguration? config;
 
   /// The [VideoPlayerController] responsible for the video being rendered in
   /// this widget.
@@ -27,6 +29,9 @@ class JWVideoPlayer extends StatefulWidget {
 
   static Future<String?> getPlatformVersion() =>
       _videoPlayerPlatform.getPlatformVersion();
+
+  static Future<void> setLicenseKey(String licenseKey) =>
+      _videoPlayerPlatform.setLicenseKey(licenseKey);
 }
 
 class _JWVideoPlayerState extends State<JWVideoPlayer> {
@@ -49,6 +54,11 @@ class _JWVideoPlayerState extends State<JWVideoPlayer> {
   Widget build(BuildContext context) {
     return _textureId == null
         ? const Center(child: CircularProgressIndicator())
-        : _videoPlayerPlatform.buildView(_textureId!);
+        : _videoPlayerPlatform.buildView(_textureId!, setConfig);
+  }
+
+  Future<void> setConfig(int id) async {
+    if (widget.config == null) return;
+    await _videoPlayerPlatform.setConfig(widget.config!.toJson(), id);
   }
 }
