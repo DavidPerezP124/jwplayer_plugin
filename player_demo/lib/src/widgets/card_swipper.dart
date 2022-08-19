@@ -65,25 +65,22 @@ class _CardWidget extends StatelessWidget {
       color: Colors.transparent,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(12),
-        child: InkWell(
-          onTap: () {},
-          child: GridTile(
-            child: FadeInImage(
-              placeholder: AssetImage('assets/no-image.jpg'),
-              // image: AssetImage('assets/no-image.jpg'),
-              image: NetworkImage(video.image),
-              fit: BoxFit.cover),
-            footer: Container(
-              padding: EdgeInsets.all(8),
-              color: Colors.black.withOpacity(0.4),
-              child: Text(
-                video.title,
-                textAlign: TextAlign.right,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white.withOpacity(0.9),
-                  fontSize: 16,
-                ),
+        child: GridTile(
+          child: FadeInImage(
+            placeholder: AssetImage('assets/no-image.jpg'),
+            // image: AssetImage('assets/no-image.jpg'),
+            image: NetworkImage(video.image),
+            fit: BoxFit.cover),
+          footer: Container(
+            padding: EdgeInsets.all(8),
+            color: Colors.black.withOpacity(0.4),
+            child: Text(
+              video.title,
+              textAlign: TextAlign.right,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.white.withOpacity(0.9),
+                fontSize: 16,
               ),
             ),
           ),
