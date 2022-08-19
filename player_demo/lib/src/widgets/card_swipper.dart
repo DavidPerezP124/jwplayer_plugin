@@ -45,17 +45,49 @@ class CardSwipper extends StatelessWidget {
             onTap: () => Navigator.pushNamed(context, 'details', arguments: video),
             child: Hero(
               tag: video.heroId!,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: FadeInImage(
-                    placeholder: AssetImage('assets/no-image.jpg'),
-                    // image: AssetImage('assets/no-image.jpg'),
-                    image: NetworkImage(video.image),
-                    fit: BoxFit.cover),
-              ),
+              child: _CardWidget(video: video),
             ),
           );
         },
+      ),
+    );
+  }
+}
+
+class _CardWidget extends StatelessWidget {
+  const _CardWidget({super.key, required this.video});
+
+  final VideoInfo video;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.transparent,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(12),
+        child: InkWell(
+          onTap: () {},
+          child: GridTile(
+            child: FadeInImage(
+              placeholder: AssetImage('assets/no-image.jpg'),
+              // image: AssetImage('assets/no-image.jpg'),
+              image: NetworkImage(video.image),
+              fit: BoxFit.cover),
+            footer: Container(
+              padding: EdgeInsets.all(8),
+              color: Colors.black.withOpacity(0.4),
+              child: Text(
+                video.title,
+                textAlign: TextAlign.right,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white.withOpacity(0.9),
+                  fontSize: 16,
+                ),
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }
