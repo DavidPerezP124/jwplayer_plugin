@@ -65,9 +65,7 @@ class _CardWidget extends StatelessWidget {
       color: Colors.transparent,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(12),
-        child: InkWell(
-          onTap: () {},
-          child: GridTile(
+        child: GridTile(
             child: FadeInImage(
               placeholder: AssetImage('assets/no-image.jpg'),
               // image: AssetImage('assets/no-image.jpg'),
@@ -86,7 +84,6 @@ class _CardWidget extends StatelessWidget {
                 ),
               ),
             ),
-          ),
         ),
       ),
     );
