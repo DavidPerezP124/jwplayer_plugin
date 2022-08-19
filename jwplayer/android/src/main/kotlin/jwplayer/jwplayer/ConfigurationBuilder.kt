@@ -34,12 +34,11 @@ class ConfigurationBuilder {
 
     fun toPlayerConfig(config: JSONObject): PlayerConfig {
         var builder = PlayerConfig.Builder()
-        if (config.has("file")) {
-            builder.file(getFile(config))
-        }
+        builder.file(getFile(config))
         if (config.has("playlist")) {
             builder.playlist(getPlaylist(config))
         }
+        builder.useTextureView(true)
         return builder.build()
     }
 }
