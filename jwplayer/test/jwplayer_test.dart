@@ -12,12 +12,6 @@ class MockJwplayerPlatform
   Future<String?> getPlatformVersion() => Future.value('42');
 
   @override
-  Widget buildView(int viewId) {
-    // TODO: implement buildView
-    throw UnimplementedError();
-  }
-
-  @override
   Future<int?> create() {
     // TODO: implement create
     throw UnimplementedError();
@@ -32,6 +26,24 @@ class MockJwplayerPlatform
   @override
   Future<String?> play() {
     // TODO: implement play
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> setLicenseKey(String licenseKey) {
+    // TODO: implement setLicenseKey
+    throw UnimplementedError();
+  }
+
+  @override
+  Widget buildView(int viewId, void Function(int p1) onPlatformViewCreated) {
+    // TODO: implement buildView
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> setConfig(Map<String, dynamic> config, int id) {
+    // TODO: implement setConfig
     throw UnimplementedError();
   }
 }

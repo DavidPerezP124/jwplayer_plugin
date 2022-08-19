@@ -4,19 +4,18 @@ import JWPlayerKit
 
 fileprivate enum Methods: String {
     case getPlatformVersion
-    case play
-    case create
+    case setLicenseKey
+    case setConfig
     case `init`
 }
 
 public class SwiftJwplayerPlugin:  NSObject, FlutterPlugin {
-    var currentId = 0
 
     public static func register(with registrar: FlutterPluginRegistrar) {
         let channel = FlutterMethodChannel(name: "jwplayer", binaryMessenger: registrar.messenger())
         let instance = SwiftJwplayerPlugin()
         // TODO: Create API for setting this on Flutter side.
-        JWPlayerKitLicense.setLicenseKey("XESWDHH3RTkYqna+1TNpjWbJpQIES/MRY9CoJvIxVYL795nYoVE4w8yJX4Xq80rF9CJ28CgxKKB2ZEv7")
+
         let factory = JWPlayerFactory(messenger: registrar.messenger())
         registrar.register(
             factory,
@@ -32,15 +31,15 @@ public class SwiftJwplayerPlugin:  NSObject, FlutterPlugin {
         }
 
         switch method {
-        case .create:
-            result(currentId)
+        case .setLicenseKey:
+            let arguments = call.arguments as! [String: Any]
+            let key = arguments["licenseKey"] as! String
+            JWPlayerKitLicense.setLicenseKey(key)
+            result(nil)
         case .`init`:
             result("init")
         case .getPlatformVersion:
             result(JWPlayerKit.sdkVersion)
-        case .play:
-            print("play")
-            result("play")
         default:
             result(FlutterMethodNotImplemented)
         }

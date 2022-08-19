@@ -8,21 +8,24 @@ import 'jwplayer_platform_interface.dart';
 class MethodChannelJwplayer extends JwplayerPlatform {
   /// The method channel used to interact with the native platform.
   @visibleForTesting
-  final methodChannel = const MethodChannel('jwplayer');
+  final platformChannel = const MethodChannel('jwplayer');
+
+  @visibleForTesting
+  final viewChannel = const MethodChannel('playerview');
 
   @override
   Future<void> init() async {
-    methodChannel.invokeMethod<String>('init');
+    platformChannel.invokeMethod<String>('init');
   }
 
   @override
   Future<int?> create() async {
-    final id = await methodChannel.invokeMethod<int>('create');
+    final id = await viewChannel.invokeMethod<int>('create');
     return id;
   }
 
   @override
-  Widget buildView(int viewId) {
+  Widget buildView(int viewId, void Function(int) onPlatformViewCreated) {
     const String viewType = '<platform-view-type>';
 
     final platform = defaultTargetPlatform;
@@ -30,7 +33,7 @@ class MethodChannelJwplayer extends JwplayerPlatform {
       case TargetPlatform.android:
         return AndroidView(
           viewType: viewType,
-          onPlatformViewCreated: (_) {},
+          onPlatformViewCreated: onPlatformViewCreated,
           creationParams: <String, dynamic>{
             'id': viewId,
           },
@@ -39,7 +42,7 @@ class MethodChannelJwplayer extends JwplayerPlatform {
       case TargetPlatform.iOS:
         return UiKitView(
           viewType: viewType,
-          onPlatformViewCreated: (_) {},
+          onPlatformViewCreated: onPlatformViewCreated,
           creationParams: <String, dynamic>{
             'id': viewId,
           },
@@ -54,7 +57,23 @@ class MethodChannelJwplayer extends JwplayerPlatform {
   @override
   Future<String?> getPlatformVersion() async {
     final version =
-        await methodChannel.invokeMethod<String>('getPlatformVersion');
+        await platformChannel.invokeMethod<String>('getPlatformVersion');
     return version;
+  }
+
+  @override
+  Future<void> setLicenseKey(String licenseKey) async {
+    platformChannel
+        .invokeMethod<String>('setLicenseKey', {"licenseKey": licenseKey});
+  }
+
+  @override
+  Future<void> setConfig(Map<String, dynamic> config, int id) async {
+    viewChannel.invokeMethod<String>('setConfig', {"config": config, "id": id});
+  }
+
+  @override
+  Future<void> play() async {
+    viewChannel.invokeMethod<String>('play');
   }
 }
