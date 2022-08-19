@@ -33,7 +33,10 @@ class JwplayerPlugin: FlutterPlugin, MethodCallHandler, ActivityAware, AppCompat
 
   override fun onAttachedToActivity(binding: ActivityPluginBinding) {
       val lifecycle = binding.activity as LifecycleOwner
-      flutterBinding.platformViewRegistry.registerViewFactory("<platform-view-type>", PlayerViewFactory(binding.activity, lifecycle, messenger))
+      val factory = PlayerViewFactory(binding.activity, lifecycle, messenger)
+      val viewChannel = MethodChannel(messenger, "playerview")
+      viewChannel.setMethodCallHandler(factory)
+      flutterBinding.platformViewRegistry.registerViewFactory("<platform-view-type>", factory)
   }
 
   override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {

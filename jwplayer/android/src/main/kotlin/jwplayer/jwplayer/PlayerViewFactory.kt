@@ -3,6 +3,7 @@ package jwplayer.jwplayer
 import android.app.Activity
 import android.content.Context
 import androidx.lifecycle.LifecycleOwner
+import io.flutter.Log
 import io.flutter.plugin.common.BinaryMessenger
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
@@ -11,13 +12,12 @@ import io.flutter.plugin.platform.PlatformView
 import io.flutter.plugin.platform.PlatformViewFactory
 import org.json.JSONObject
 
-
 class PlayerViewFactory(activity: Activity, owner: LifecycleOwner, messenger: BinaryMessenger) : PlatformViewFactory(StandardMessageCodec.INSTANCE),
     MethodChannel.MethodCallHandler {
 
-    private var currentActivity: Activity;
-    private var viewOwner: LifecycleOwner;
-    private var messenger: BinaryMessenger;
+    private var currentActivity: Activity
+    private var viewOwner: LifecycleOwner
+    private var messenger: BinaryMessenger
     private var channel: MethodChannel
     private var players = mutableMapOf<Int, PlayerInterface>()
     private var lastView: Int = 0
@@ -27,9 +27,9 @@ class PlayerViewFactory(activity: Activity, owner: LifecycleOwner, messenger: Bi
     }
 
     init {
-        currentActivity = activity;
+        currentActivity = activity
         viewOwner = owner
-        this.messenger = messenger;
+        this.messenger = messenger
         channel = MethodChannel(messenger, "playerview")
         channel.setMethodCallHandler(this)
     }
@@ -54,8 +54,8 @@ class PlayerViewFactory(activity: Activity, owner: LifecycleOwner, messenger: Bi
                 val config = call.argument<Map<String,Any>>("config")
                 val id = call.argument<Int>("id")
                 if (config != null ) {
-                    print(players[id])
-                    players[id]?.setConfig(ConfigurationBuilder().toPlayerConfig(JSONObject(config)))
+                    val builtConfig = ConfigurationBuilder().toPlayerConfig(JSONObject(config))
+                    players[id]?.setConfig(builtConfig)
                 }
             }
             else -> {
