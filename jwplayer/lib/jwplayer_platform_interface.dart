@@ -40,11 +40,19 @@ abstract class JwplayerPlatform extends PlatformInterface {
     throw UnimplementedError('platformVersion() has not been implemented.');
   }
 
-  Future<String?> play() {
+  Future<void> setLicenseKey(String licenseKey) {
+    throw UnimplementedError('setLicenseKey() has not been implemented.');
+  }
+
+  Future<void> play() {
     throw UnimplementedError('play() has not been implemented.');
   }
 
-  Widget buildView(int viewId) {
+  Future<void> setConfig(Map<String, dynamic> config, int id) {
+    throw UnimplementedError('setConfig() has not been implemented.');
+  }
+
+  Widget buildView(int viewId, void Function(int) onPlatformViewCreated) {
     throw UnimplementedError('buildView() has not been implemented.');
   }
 }
