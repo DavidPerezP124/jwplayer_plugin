@@ -63,5 +63,4 @@ class PlayerViewFactory(activity: Activity, owner: LifecycleOwner, messenger: Bi
             }
         }
     }
-
 }

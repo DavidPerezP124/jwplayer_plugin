@@ -7,6 +7,7 @@ import androidx.lifecycle.LifecycleOwner
 import com.jwplayer.pub.api.JWPlayer
 import com.jwplayer.pub.api.configuration.PlayerConfig
 import com.jwplayer.pub.view.JWPlayerView
+
 import io.flutter.plugin.platform.PlatformView
 
 

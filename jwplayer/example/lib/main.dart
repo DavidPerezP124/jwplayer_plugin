@@ -26,6 +26,7 @@ void main() async {
 
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
+
   @override
   State<MyApp> createState() => _MyAppState();
 }
@@ -50,6 +51,7 @@ class _MyAppState extends State<MyApp> {
       print(e.toString());
     }
     try {
+
       platformVersion = await JWVideoPlayer.getPlatformVersion() ??
           'Unknown platform version';
     } on PlatformException {
@@ -92,6 +94,7 @@ class _MyAppState extends State<MyApp> {
                   child: JWVideoPlayer(
                     config: config3,
                   ),
+
                 ),
               ],
             ),

@@ -33,6 +33,7 @@ class JWPlayerFactory: NSObject, FlutterPlatformViewFactory {
         let nativeView = JWNativeView()
         views?[viewId] = nativeView
         lastView += 1
+
         let view = nativeView.view()
         view.frame =  frame
         return nativeView

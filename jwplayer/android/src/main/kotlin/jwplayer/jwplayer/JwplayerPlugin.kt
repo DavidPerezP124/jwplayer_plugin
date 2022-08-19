@@ -9,6 +9,7 @@ import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
 import io.flutter.plugin.common.BinaryMessenger
+
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
@@ -74,6 +75,7 @@ class JwplayerPlugin: FlutterPlugin, MethodCallHandler, ActivityAware, AppCompat
   override fun onReattachedToActivityForConfigChanges(binding: ActivityPluginBinding) {
     val lifecycle = binding.activity as LifecycleOwner
     flutterBinding.platformViewRegistry.registerViewFactory("<platform-view-type>", PlayerViewFactory(binding.activity, lifecycle, messenger))
+
   }
 
   override fun onDetachedFromActivity() {

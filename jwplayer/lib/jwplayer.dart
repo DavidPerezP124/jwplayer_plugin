@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jwplayer/jwplayer_configuration.dart';
 
+
 import 'jwplayer_platform_interface.dart';
 
 JwplayerPlatform? _lastVideoPlayerPlatform;
@@ -20,6 +21,7 @@ class JWVideoPlayer extends StatefulWidget {
   /// Uses the given [controller] for all video rendered in this widget.
   const JWVideoPlayer({Key? key, this.config}) : super(key: key);
   final JwPlayerConfiguration? config;
+
 
   /// The [VideoPlayerController] responsible for the video being rendered in
   /// this widget.

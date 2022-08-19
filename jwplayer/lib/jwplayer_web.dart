@@ -7,6 +7,7 @@ import 'package:jwplayer/playerAPI/web_player_api.dart';
 import 'package:jwplayer/utils/objectifier.dart';
 import 'package:js/js_util.dart' as js;
 
+
 import 'shims/dart_ui.dart' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
