@@ -77,15 +77,15 @@ class _PosterAndTitle extends StatelessWidget {
     final size = MediaQuery.of(context).size;
 
     return Container(
-      margin: EdgeInsets.only(top: 20),
-      padding: EdgeInsets.symmetric(horizontal: 20),
+      margin: const EdgeInsets.only(top: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Row(children: [
         Hero(
           tag: video.heroId!,
           child: ClipRRect(
             borderRadius: BorderRadius.circular(20),
             child: FadeInImage(
-              placeholder: AssetImage('assets/no-image.jpg'),
+              placeholder: const AssetImage('assets/no-image.jpg'),
               // image: AssetImage('assets/no-image.jpg'),
               image: NetworkImage(video.image ?? ""),
               fit: BoxFit.cover,
@@ -94,7 +94,7 @@ class _PosterAndTitle extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox(width: 20),
+        const SizedBox(width: 20),
         ConstrainedBox(
           constraints: BoxConstraints(maxWidth: size.width - 190),
           child: Column(

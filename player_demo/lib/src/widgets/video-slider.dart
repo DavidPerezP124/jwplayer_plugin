@@ -39,7 +39,7 @@ class _VideoPoster extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    video.heroId = 'slider-${video.mediaid}';
+    video.heroId = 'slider-${video.title}';
 
     return Container(
       width: 300,

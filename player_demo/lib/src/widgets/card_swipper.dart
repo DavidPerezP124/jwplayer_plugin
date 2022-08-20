@@ -38,7 +38,7 @@ class CardSwipper extends StatelessWidget {
 
         itemBuilder: (_, int index) {
           final video = videos[index];
-          video.heroId = 'swiper-${video.mediaid}+${DateTime.now()}';
+          video.heroId = 'swiper-${video.title}+${DateTime.now()}';
 
           return GestureDetector(
             onTap: () =>
@@ -66,11 +66,6 @@ class _CardWidget extends StatelessWidget {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(12),
         child: GridTile(
-          child: FadeInImage(
-              placeholder: AssetImage('assets/no-image.jpg'),
-              // image: AssetImage('assets/no-image.jpg'),
-              image: NetworkImage(video.image),
-              fit: BoxFit.cover),
           footer: Container(
             padding: EdgeInsets.all(8),
             color: Colors.black.withOpacity(0.4),
@@ -84,6 +79,12 @@ class _CardWidget extends StatelessWidget {
               ),
             ),
           ),
+          child: FadeInImage(
+              placeholder: const AssetImage('assets/no-image.jpg'),
+              // image: AssetImage('assets/no-image.jpg'),
+              image: NetworkImage(video.image ??
+                  "https://upload.wikimedia.org/wikipedia/commons/a/ab/VHS-Kassette_01_KMJ.jpg"),
+              fit: BoxFit.cover),
         ),
       ),
     );
