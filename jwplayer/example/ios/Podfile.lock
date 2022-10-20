@@ -1,0 +1,29 @@
+PODS:
+  - Flutter (1.0.0)
+  - jwplayer (0.0.1):
+    - Flutter
+    - JWPlayerKit
+  - JWPlayerKit (4.6.1)
+
+DEPENDENCIES:
+  - Flutter (from `Flutter`)
+  - jwplayer (from `.symlinks/plugins/jwplayer/ios`)
+
+SPEC REPOS:
+  trunk:
+    - JWPlayerKit
+
+EXTERNAL SOURCES:
+  Flutter:
+    :path: Flutter
+  jwplayer:
+    :path: ".symlinks/plugins/jwplayer/ios"
+
+SPEC CHECKSUMS:
+  Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
+  jwplayer: 5d2e836734c0f478e69037dd8187085c7d21e40b
+  JWPlayerKit: b4035d38ce4ed385ec2afdc69b9cb78943a070dc
+
+PODFILE CHECKSUM: ef19549a9bc3046e7bb7d2fab4d021637c0c58a3
+
+COCOAPODS: 1.11.3
