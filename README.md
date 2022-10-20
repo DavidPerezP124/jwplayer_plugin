@@ -1,7 +1,9 @@
 # flutter_plugin
 
-Collaboratos:
+Collaborators:
+
 Ivan Gonzalez
+
 David Perez
 
 ### To use jwplayer/example and demo app add licences to a .env
