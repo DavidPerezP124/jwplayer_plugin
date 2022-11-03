@@ -1,8 +1,5 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:jwplayer/jwplayer.dart';
-import 'package:jwplayer/jwplayer_configuration.dart';
 
 import '../models/video_info.dart';
 import '../utils/license_util.dart';
@@ -37,7 +34,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
       aspectRatio: 1.2,
       // Use the VideoPlayer widget to display the video.
       child: JWVideoPlayer(
-        config: JwPlayerConfiguration(file: video.sources.first.file),
+        config: JWPlayerConfiguration(file: video.sources.first.file),
       ),
     );
   }
