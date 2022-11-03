@@ -48,7 +48,18 @@ class PlayerViewFactory(activity: Activity, owner: LifecycleOwner, messenger: Bi
         }
 
         when (Method.valueOf(call.method)) {
-            Method.play -> result.success("play")
+            Method.play -> {
+                val id = call.argument<Int>("id")
+                players[id]?.play()
+            }
+            Method.pause -> {
+                val id = call.argument<Int>("id")
+                players[id]?.pause()
+            }
+            Method.stop -> {
+                val id = call.argument<Int>("id")
+                players[id]?.stop()
+            }
             Method.create -> result.success(lastView)
             Method.setConfig -> {
                 val config = call.argument<Map<String,Any>>("config")
