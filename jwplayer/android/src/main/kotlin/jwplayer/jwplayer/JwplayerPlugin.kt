@@ -4,7 +4,6 @@ import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LifecycleOwner
 import com.jwplayer.pub.api.license.LicenseUtil
-import com.jwplayer.utils.VersionUtil
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
@@ -15,7 +14,6 @@ import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
-
 
 /** JwplayerPlugin */
 class JwplayerPlugin: FlutterPlugin, MethodCallHandler, ActivityAware, AppCompatActivity() {
@@ -55,7 +53,7 @@ class JwplayerPlugin: FlutterPlugin, MethodCallHandler, ActivityAware, AppCompat
 
     when (Method.valueOf(call.method)) {
       Method.init -> result.success("init")
-      Method.getPlatformVersion -> result.success(VersionUtil.getSdkVersion())
+      Method.getPlatformVersion -> result.success("4.6.0")
       Method.setLicenseKey -> { 
         val key = call.argument<String>("licenseKey")
         LicenseUtil().setLicenseKey(flutterBinding.applicationContext, key)

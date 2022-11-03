@@ -37,7 +37,7 @@ class PlayerViewFactory(activity: Activity, owner: LifecycleOwner, messenger: Bi
         val creationParams = p2 as Map<String?, Any?>?
         val view = PlayerView(p0, currentActivity, p1, viewOwner)
         players[p1] = view
-        lastView++
+        lastView = p1
         return view
     }
 
