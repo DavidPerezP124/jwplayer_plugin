@@ -1,11 +1,8 @@
-import 'dart:developer';
-import 'dart:io';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class GetLicense {
-  static TargetPlatform _platform = defaultTargetPlatform;
+  static final TargetPlatform _platform = defaultTargetPlatform;
 
   static String getLicense() {
     switch (_platform) {

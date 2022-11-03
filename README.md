@@ -1,13 +1,11 @@
-# flutter_plugin
+An unofficial flutter plugin for the JWPlayer platform
 
-Collaborators:
+This is currently in beta
 
-Ivan Gonzalez
+0.0.1
 
-David Perez
-
-### To use jwplayer/example and demo app add licences to a .env
-
-ANDROID_LICENSE="{LICENCE}"
-
-IOS_LICENSE="{LICENCE}"
+- [ ] Full configuration support
+- [ ] Wiki addition for plugin
+- [ ] API interface for supported platforms
+- [ ] Delegate methods for supported platforms
+- [ ] DRM implementations for mobile platforms 

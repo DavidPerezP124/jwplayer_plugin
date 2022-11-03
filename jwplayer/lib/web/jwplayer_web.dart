@@ -3,28 +3,26 @@
 // package as the core of your plugin.
 // ignore: avoid_web_libraries_in_flutter
 import 'dart:html' as html;
-import 'package:jwplayer/playerAPI/web_player_api.dart';
-import 'package:jwplayer/utils/objectifier.dart';
+import 'package:jwplayer/web/web_player_api/web_player_api.dart';
 import 'package:js/js_util.dart' as js;
 
-
-import 'shims/dart_ui.dart' as ui;
+import '../shims/dart_ui.dart' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 
-import 'jwplayer_platform_interface.dart';
+import '../jwplayer_platform_interface.dart';
 
 /// A web implementation of the JwplayerPlatform of the Jwplayer plugin.
-class JwplayerWeb extends JwplayerPlatform {
+class JWPlayerWeb extends JWPlayerPlatform {
   /// Constructs a JwplayerWeb
-  JwplayerWeb();
+  JWPlayerWeb();
 
   // Simulate the native "textureId".
-  int _viewCounter = 1;
+  int _viewCounter = 0;
   final Map<int, html.DivElement> _videoPlayers = <int, html.DivElement>{};
 
   static void registerWith(Registrar registrar) {
-    JwplayerPlatform.instance = JwplayerWeb();
+    JWPlayerPlatform.instance = JWPlayerWeb();
   }
 
   @override
@@ -38,10 +36,10 @@ class JwplayerWeb extends JwplayerPlatform {
 
   @override
   Future<int> create() async {
-    final int _currentView = _viewCounter++;
+    final int _currentView = _viewCounter;
 
     final html.DivElement div = html.DivElement();
-    div.id = "player_$_currentView";
+    div.id = "player_$_viewCounter";
 
     div.setAttribute("style",
         "border: none; display: block; margin: 0; width: 100%; height: 100%;");
@@ -51,35 +49,43 @@ class JwplayerWeb extends JwplayerPlatform {
 
     _videoPlayers[_viewCounter] = div;
 
+    _viewCounter++;
     return _currentView;
   }
 
   @override
-  Future<void> setConfig(Map<String, dynamic> config, int id) async {
-    print("setting config for player_$id: config: $config");
-    var nextId = id + 1;
-    String playerId = "player_$nextId";
-
-    var jsonConfig = mapToJSObj(config);
-
-    try {
-      PlayerAPI(playerId).setup(jsonConfig);
-    } catch (e) {
-      print(e);
-    }
+  Future<void> play(int id) async {
+    String playerId = "player_$id";
+    PlayerAPI(playerId).play();
   }
 
   @override
-  Future<void> setLicenseKey(String licenseKey) async {
-    // TODO: implement setLicenseKey
-    print(licenseKey);
+  Future<void> pause(int id) async {
+    String playerId = "player_$id";
+    PlayerAPI(playerId).pause();
   }
+
+  @override
+  Future<void> stop(int id) async {
+    String playerId = "player_$id";
+    PlayerAPI(playerId).stop();
+  }
+
+  @override
+  Future<void> setConfig(Map<String, dynamic> config, int id) async {
+    String playerId = "player_$id";
+
+    var jsonConfig = mapToJSObj(config);
+    PlayerAPI(playerId).setup(jsonConfig);
+  }
+
+  @override
+  Future<void> setLicenseKey(String licenseKey) async {}
 
   /// Returns a [String] containing the version of the platform.
   @override
   Future<String> getPlatformVersion() async {
-    final version = html.window.navigator.userAgent;
-    return version;
+    return playerVersion.substring(0, playerVersion.indexOf("+"));
   }
 
   @override

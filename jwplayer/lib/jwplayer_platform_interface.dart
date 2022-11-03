@@ -1,25 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
-import 'jwplayer_method_channel.dart';
+import 'mobile/jwplayer_method_channel.dart';
 
-abstract class JwplayerPlatform extends PlatformInterface {
+class JWPlatformException extends Error {
+  final String? message;
+  JWPlatformException(String this.message);
+}
+
+abstract class JWPlayerPlatform extends PlatformInterface {
   /// Constructs a FlutterPocPlatform.
-  JwplayerPlatform() : super(token: _token);
+  JWPlayerPlatform() : super(token: _token);
 
   static final Object _token = Object();
 
-  static JwplayerPlatform _instance = MethodChannelJwplayer();
+  static JWPlayerPlatform _instance = MethodChannelJWPlayer();
 
   /// The default instance of [FlutterPocPlatform] to use.
   ///
   /// Defaults to [MethodChannelFlutterPoc].
-  static JwplayerPlatform get instance => _instance;
+  static JWPlayerPlatform get instance => _instance;
 
   /// Platform-specific implementations should set this with their own
   /// platform-specific class that extends [FlutterPocPlatform] when
   /// they register themselves.
-  static set instance(JwplayerPlatform instance) {
+  static set instance(JWPlayerPlatform instance) {
     PlatformInterface.verifyToken(instance, _token);
     _instance = instance;
   }
@@ -32,7 +37,7 @@ abstract class JwplayerPlatform extends PlatformInterface {
     throw UnimplementedError('init() has not been implemented.');
   }
 
-  Future<int?> create() {
+  Future<int> create() {
     throw UnimplementedError('create() has not been implemented.');
   }
 
@@ -44,8 +49,20 @@ abstract class JwplayerPlatform extends PlatformInterface {
     throw UnimplementedError('setLicenseKey() has not been implemented.');
   }
 
-  Future<void> play() {
+  Future<void> play(int id) {
     throw UnimplementedError('play() has not been implemented.');
+  }
+
+  Future<void> pause(int id) {
+    throw UnimplementedError('pause() has not been implemented.');
+  }
+
+  Future<void> stop(int id) {
+    throw UnimplementedError('stop() has not been implemented.');
+  }
+
+  Future<void> seek(double to, int id) {
+    throw UnimplementedError('see() has not been implemented.');
   }
 
   Future<void> setConfig(Map<String, dynamic> config, int id) {
@@ -55,4 +72,75 @@ abstract class JwplayerPlatform extends PlatformInterface {
   Widget buildView(int viewId, void Function(int) onPlatformViewCreated) {
     throw UnimplementedError('buildView() has not been implemented.');
   }
+
+  Future<void> dispose(int viewId) {
+    throw UnimplementedError('dispose() has not been implemented.');
+  }
+
+  /// Returns a Stream of [VideoEventType]s.
+  Stream<VideoEvent> videoEventsFor(int textureId) {
+    throw UnimplementedError('videoEventsFor() has not been implemented.');
+  }
+}
+
+@immutable
+class VideoEvent {
+  /// Creates an instance of [VideoEvent].
+  ///
+  /// The [eventType] argument is required.
+  ///
+  /// Depending on the [eventType], the [duration], [size].
+  // in all of the other video player packages, fix this, and then update
+  // the other packages to use const.
+  // ignore: prefer_const_constructors_in_immutables
+  VideoEvent({
+    required this.eventType,
+    this.duration,
+    this.size,
+  });
+
+  /// The type of the event.
+  final VideoEventType eventType;
+
+  /// Duration of the video.
+  ///
+  /// Only used if [eventType] is [VideoEventType.initialized].
+  final Duration? duration;
+
+  /// Size of the video.
+  ///
+  /// Only used if [eventType] is [VideoEventType.initialized].
+  final Size? size;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        other is VideoEvent &&
+            runtimeType == other.runtimeType &&
+            eventType == other.eventType &&
+            duration == other.duration &&
+            size == other.size;
+  }
+
+  @override
+  int get hashCode => Object.hash(
+        eventType,
+        duration,
+        size,
+      );
+}
+
+/// Type of the event.
+///
+/// Emitted by the platform implementation when the video is initialized or
+/// completed.
+enum VideoEventType {
+  /// The video has been initialized.
+  initialized,
+
+  /// The playback has ended.
+  completed,
+
+  /// An unknown event has been received.
+  unknown,
 }

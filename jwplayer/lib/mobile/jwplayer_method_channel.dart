@@ -2,10 +2,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
-import 'jwplayer_platform_interface.dart';
+import '../jwplayer_platform_interface.dart';
 
-/// An implementation of [JwplayerPlatform] that uses method channels.
-class MethodChannelJwplayer extends JwplayerPlatform {
+/// An implementation of [JWPlayerPlatform] that uses method channels.
+class MethodChannelJWPlayer extends JWPlayerPlatform {
   /// The method channel used to interact with the native platform.
   @visibleForTesting
   final platformChannel = const MethodChannel('jwplayer');
@@ -19,9 +19,9 @@ class MethodChannelJwplayer extends JwplayerPlatform {
   }
 
   @override
-  Future<int?> create() async {
+  Future<int> create() async {
     final id = await viewChannel.invokeMethod<int>('create');
-    return id;
+    return id!;
   }
 
   @override
@@ -73,7 +73,22 @@ class MethodChannelJwplayer extends JwplayerPlatform {
   }
 
   @override
-  Future<void> play() async {
-    viewChannel.invokeMethod<String>('play');
+  Future<void> play(int id) async {
+    viewChannel.invokeMethod<String>('play', {"id": id});
+  }
+
+  @override
+  Future<void> pause(int id) async {
+    viewChannel.invokeMethod<String>('pause', {"id": id});
+  }
+
+  @override
+  Future<void> stop(int id) async {
+    viewChannel.invokeMethod<String>('stop', {"id": id});
+  }
+
+  @override
+  Future<void> seek(double to, int id) async {
+    viewChannel.invokeMethod<String>('seek', {"to": to, "id": id});
   }
 }

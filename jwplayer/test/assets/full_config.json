@@ -1,0 +1,107 @@
+{
+    "playlist": [
+        {
+            "sources": [
+                {
+                    "file": "https://content.bitsontherun.com/videos/nfSyO85Q-52qL9xLP.mp4"
+                },
+                {
+                    "file": "https://content.bitsontherun.com/videos/nfSyO85Q-27m5HpIu.webm"
+                }
+            ],
+            "image": "https://assets-jp.jwpsrv.com/thumbs/nfSyO85Q-480.jpg",
+            "title": "Bip Bop"
+        },
+        {
+            "sources": [
+                {
+                    "file": "https://content.bitsontherun.com/videos/3XnJSIm4-52qL9xLP.mp4"
+                },
+                {
+                    "file": "https://content.bitsontherun.com/videos/3XnJSIm4-27m5HpIu.webm"
+                }
+            ],
+            "image": "https://content.bitsontherun.com/thumbs/3XnJSIm4-480.jpg",
+            "title": "Sintel Trailer",
+            "adschedule": "https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/124319096/external/ad_rule_samples&ciu_szs=300x250&ad_rule=1&impl=s&gdfp_req=1&env=vp&output=vmap&unviewed_position_start=1&cust_params=sample_ar%3Dpremidpost&cmsid=496&vid=short_onecue&correlator="
+        },
+        {
+            "sources": [
+                {
+                    "file": "https://content.bitsontherun.com/videos/nfSyO85Q-52qL9xLP.mp4"
+                },
+                {
+                    "file": "https://content.bitsontherun.com/videos/nfSyO85Q-27m5HpIu.webm"
+                }
+            ],
+            "tracks": [
+                {
+                    "file": "//playertest.longtailvideo.com/assets/os/captions/bunny-en.srt",
+                    "label": "English"
+                }
+            ],
+            "image": "https://assets-jp.jwpsrv.com/thumbs/nfSyO85Q-480.jpg",
+            "title": "Bip Bop"
+        },
+        {
+            "sources": [
+                {
+                    "file": "https://content.bitsontherun.com/videos/nfSyO85Q-52qL9xLP.mp4"
+                },
+                {
+                    "file": "https://content.bitsontherun.com/videos/nfSyO85Q-27m5HpIu.webm"
+                }
+            ],
+            "image": "https://assets-jp.jwpsrv.com/thumbs/nfSyO85Q-480.jpg",
+            "file": "//content.bitsontherun.com/videos/bkaovAYt-injeKYZS.mp4",
+            "description": "One caption track",
+            "title": "Bip Bop"
+        }
+    ],
+    "tracks": [
+        {
+            "file": "//playertest.longtailvideo.com/assets/os/captions/bunny-en.srt",
+            "label": "English",
+            "kind": "captions",
+            "default": false
+        }
+    ],
+    "sources": [
+        {
+            "file": "https://content.bitsontherun.com/videos/3XnJSIm4-52qL9xLP.mp4"
+        },
+        {
+            "file": "https://content.bitsontherun.com/videos/3XnJSIm4-27m5HpIu.webm"
+        }
+    ],
+    "image": "https://content.jwplatform.com/thumbs/Wf8BfcSt-640.jpg",
+    "analytics": {
+        "client": "../../bin-debug/jwpsrv.js",
+        "debug": true
+    },
+    "related": {
+        "client": "../../bin-debug/related.js",
+        "onclick": "play",
+        "oncomplete": "autoplay"
+    },
+    "advertising": {
+        "schedule": {
+            "adbreak1": {
+                "offset": "pre",
+                "tag": "//playertest.longtailvideo.com/pre-60s.xml"
+            },
+            "adbreak2": {
+                "offset": "50%",
+                "tag": "//playertest.longtailvideo.com/pre-60s.xml"
+            },
+            "adbreak3": {
+                "offset": "post",
+                "tag": "//playertest.longtailvideo.com/vast-30s-ad.xml"
+            }
+        },
+        "podmessage": "Something __AD_POD_CURRENT__ of __AD_POD_LENGTH__.",
+        "client": "../../bin-debug/vast.js",
+        "debug": true,
+        "tag": "//s3.amazonaws.com/demo.jwplayer.com/advertising/assets/vast3_jw_ads.xml"
+    }
+}

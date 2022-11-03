@@ -22,6 +22,7 @@ class JWPlayerFactory: NSObject, FlutterPlatformViewFactory {
     private var messenger: FlutterBinaryMessenger
     var views: [Int64:PlayerInterface]? = [:]
     var lastView: Int64 = 0
+    
     init(messenger: FlutterBinaryMessenger) {
         self.messenger = messenger
         let channel = FlutterMethodChannel(name: "playerview", binaryMessenger: messenger)
@@ -32,7 +33,7 @@ class JWPlayerFactory: NSObject, FlutterPlatformViewFactory {
     func create(withFrame frame: CGRect, viewIdentifier viewId: Int64, arguments args: Any?) -> FlutterPlatformView {
         let nativeView = JWNativeView()
         views?[viewId] = nativeView
-        lastView += 1
+        lastView = viewId
 
         let view = nativeView.view()
         view.frame =  frame
@@ -47,11 +48,21 @@ class JWPlayerFactory: NSObject, FlutterPlatformViewFactory {
         
         switch method {
         case .create:
+            print("Called create", views, lastView)
             result(lastView)
         case .play:
-            views?.forEach({ (key: Int64, value: PlayerInterface) in
-                value.play()
-            })
+            let arguments = call.arguments as! [String: Any]
+            let id = arguments["id"] as! Int64
+            print("Called play", views, id)
+            views?[id]?.play()
+        case .pause:
+            let arguments = call.arguments as! [String: Any]
+            let id = arguments["id"] as! Int64
+            views?[id]?.pause()
+        case .stop:
+             let arguments = call.arguments as! [String: Any]
+            let id = arguments["id"] as! Int64
+            views?[id]?.stop()
         case .setConfig:
             let arguments = call.arguments as! [String: Any]
             let config = arguments["config"] as! [String: Any]

@@ -4,20 +4,12 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:jwplayer/jwplayer.dart';
-import 'package:jwplayer/jwplayer_configuration.dart';
-import 'package:jwplayer_example/getLicense.dart';
+import 'package:jwplayer_example/get_license.dart';
 
-JwPlayerConfiguration config1 = JwPlayerConfiguration(
+JWPlayerConfiguration config1 = JWPlayerConfiguration(
     file:
-        "https://devstreaming-cdn.apple.com/videos/streaming/examples/img_bipbop_adv_example_ts/master.m3u8");
-
-JwPlayerConfiguration config2 = JwPlayerConfiguration(
-    file: "https://content.bitsontherun.com/videos/bkaovAYt-52qL9xLP.mp4",
-    image: "https://d3el35u4qe4frz.cloudfront.net/bkaovAYt-480.jpg");
-
-JwPlayerConfiguration config3 = JwPlayerConfiguration(
-    file:
-        "https://devstreaming-cdn.apple.com/videos/streaming/examples/img_bipbop_adv_example_ts/master.m3u8");
+        "https://devstreaming-cdn.apple.com/videos/streaming/examples/img_bipbop_adv_example_ts/master.m3u8",
+    autostart: true);
 
 void main() async {
   await dotenv.load(fileName: ".env");
@@ -33,6 +25,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   String _platformVersion = 'Unknown';
+  final JWPlayerController _controller = JWPlayerController();
 
   @override
   void initState() {
@@ -51,7 +44,6 @@ class _MyAppState extends State<MyApp> {
       print(e.toString());
     }
     try {
-
       platformVersion = await JWVideoPlayer.getPlatformVersion() ??
           'Unknown platform version';
     } on PlatformException {
@@ -71,34 +63,38 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-          appBar: AppBar(
-            title: Text('Running on: $_platformVersion'),
+        appBar: AppBar(
+          title: Text('Player version: $_platformVersion'),
+        ),
+        body: Center(
+          child: ListView(
+            children: [
+              AspectRatio(
+                aspectRatio: 1.2,
+                child: JWVideoPlayer(
+                  config: config1,
+                  controller: _controller,
+                ),
+              )
+            ],
           ),
-          body: Center(
-            child: ListView(
-              children: [
-                AspectRatio(
-                  aspectRatio: 1.2,
-                  child: JWVideoPlayer(
-                    config: config1,
-                  ),
-                ),
-                AspectRatio(
-                  aspectRatio: 1.2,
-                  child: JWVideoPlayer(
-                    config: config2,
-                  ),
-                ),
-                AspectRatio(
-                  aspectRatio: 1.2,
-                  child: JWVideoPlayer(
-                    config: config3,
-                  ),
-
-                ),
-              ],
-            ),
-          )),
+        ),
+        bottomNavigationBar: Padding(
+          padding: const EdgeInsets.only(bottom: 15),
+          child: ButtonBar(
+            alignment: MainAxisAlignment.spaceAround,
+            children: [
+              IconButton(
+                  onPressed: _controller.play,
+                  icon: const Icon(Icons.play_arrow)),
+              IconButton(
+                  onPressed: _controller.pause, icon: const Icon(Icons.pause)),
+              IconButton(
+                  onPressed: _controller.stop, icon: const Icon(Icons.stop))
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
