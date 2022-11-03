@@ -15,8 +15,6 @@ import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 
-
-
 /** JwplayerPlugin */
 class JwplayerPlugin: FlutterPlugin, MethodCallHandler, ActivityAware, AppCompatActivity() {
   /// The MethodChannel that will the communication between Flutter and native Android
@@ -28,7 +26,7 @@ class JwplayerPlugin: FlutterPlugin, MethodCallHandler, ActivityAware, AppCompat
   private lateinit var flutterBinding: FlutterPlugin.FlutterPluginBinding
 
   private enum class Method {
-    `init`, getPlatformVersion, play, setLicenseKey
+    `init`, getPlatformVersion, setLicenseKey
   }
 
   override fun onAttachedToActivity(binding: ActivityPluginBinding) {
@@ -55,8 +53,7 @@ class JwplayerPlugin: FlutterPlugin, MethodCallHandler, ActivityAware, AppCompat
 
     when (Method.valueOf(call.method)) {
       Method.init -> result.success("init")
-      Method.getPlatformVersion -> result.success("Android ${android.os.Build.VERSION.RELEASE}")
-      Method.play -> result.success("play")
+      Method.getPlatformVersion -> result.success("4.6.0")
       Method.setLicenseKey -> { 
         val key = call.argument<String>("licenseKey")
         LicenseUtil().setLicenseKey(flutterBinding.applicationContext, key)
@@ -78,7 +75,6 @@ class JwplayerPlugin: FlutterPlugin, MethodCallHandler, ActivityAware, AppCompat
   override fun onReattachedToActivityForConfigChanges(binding: ActivityPluginBinding) {
     val lifecycle = binding.activity as LifecycleOwner
     flutterBinding.platformViewRegistry.registerViewFactory("<platform-view-type>", PlayerViewFactory(binding.activity, lifecycle, messenger))
-
   }
 
   override fun onDetachedFromActivity() {
