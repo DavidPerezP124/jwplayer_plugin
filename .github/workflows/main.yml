@@ -1,7 +1,7 @@
 name: Test example app build
 on:
   pull_request_target:
-    types:
+    branch:
       - main
 jobs:
   build_ios:
