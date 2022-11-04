@@ -16,6 +16,7 @@ jobs:
         channel: 'master'
         architecture: x64
     - run: flutter pub get
+    - run: touch .env
     - run: flutter test
     - run: flutter build ios --release --no-codesign
   build_android:
@@ -30,6 +31,7 @@ jobs:
       with:
         channel: 'master'
     - run: flutter pub get
+    - run: touch .env
     - run: flutter test
     - run: flutter build apk
   build_web:
@@ -40,5 +42,6 @@ jobs:
       with:
         channel: 'master'
     - run: flutter pub get
+    - run: touch .env
     - run: flutter test
     - run: flutter build web
