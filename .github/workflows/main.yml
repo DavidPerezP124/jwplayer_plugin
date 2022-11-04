@@ -12,6 +12,7 @@ jobs:
       with:
         channel: 'stable'
         architecture: x64
+    - run: cd jwplayer/example
     - run: flutter pub get
     - run: flutter test
     - run: flutter build ios --release --no-codesign
@@ -26,6 +27,7 @@ jobs:
     - uses: subosito/flutter-action@v2
       with:
         flutter-version: '3.0.5'
+    - run: cd jwplayer/example
     - run: flutter pub get
     - run: flutter test
     - run: flutter build apk
@@ -37,6 +39,7 @@ jobs:
     - uses: subosito/flutter-action@v2
       with:
         channel: 'stable'
+    - run: cd jwplayer/example
     - run: flutter pub get
     - run: flutter test
     - run: flutter build web
