@@ -1,6 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:jwplayer/mobile/jwplayer_method_channel.dart';
+import 'package:jw_video_player/mobile/jwplayer_method_channel.dart';
 
 void main() {
   MethodChannelJWPlayer platform = MethodChannelJWPlayer();

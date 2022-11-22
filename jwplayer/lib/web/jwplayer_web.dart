@@ -6,7 +6,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:html' as html;
 import 'dart:js' as js;
-import 'package:jwplayer/web/web_player_api/web_player_api.dart' as api;
+import 'package:jw_video_player/web/web_player_api/web_player_api.dart' as api;
 import 'package:js/js_util.dart' as jsutil;
 
 import '../shims/dart_ui.dart' as ui;
