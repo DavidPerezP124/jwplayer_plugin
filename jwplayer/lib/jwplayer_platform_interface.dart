@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
@@ -93,11 +95,14 @@ class VideoEvent {
   // in all of the other video player packages, fix this, and then update
   // the other packages to use const.
   // ignore: prefer_const_constructors_in_immutables
-  VideoEvent({
-    required this.eventType,
-    this.duration,
-    this.size,
-  });
+  VideoEvent(
+      {required this.eventType,
+      this.duration,
+      this.position = Duration.zero,
+      this.size,
+      this.bufferPercent = 0,
+      this.bufferPosition = 0,
+      this.state = PlayerState.idle});
 
   /// The type of the event.
   final VideoEventType eventType;
@@ -112,6 +117,15 @@ class VideoEvent {
   /// Only used if [eventType] is [VideoEventType.initialized].
   final Size? size;
 
+  /// Player state
+  final PlayerState state;
+
+  final Duration position;
+
+  final double? bufferPercent;
+
+  final double? bufferPosition;
+
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
@@ -119,15 +133,13 @@ class VideoEvent {
             runtimeType == other.runtimeType &&
             eventType == other.eventType &&
             duration == other.duration &&
-            size == other.size;
+            size == other.size &&
+            position == other.position &&
+            bufferPercent == other.bufferPercent;
   }
 
   @override
-  int get hashCode => Object.hash(
-        eventType,
-        duration,
-        size,
-      );
+  int get hashCode => Object.hash(eventType, duration, size, position);
 }
 
 /// Type of the event.
@@ -135,7 +147,16 @@ class VideoEvent {
 /// Emitted by the platform implementation when the video is initialized or
 /// completed.
 enum VideoEventType {
-  /// The video has been initialized.
+  /// The player state has changed
+  state,
+
+  /// The player has buffered more content
+  buffer,
+
+  /// The player has a time position update
+  time,
+
+  /// The player has been initialized.
   initialized,
 
   /// The playback has ended.
@@ -143,4 +164,21 @@ enum VideoEventType {
 
   /// An unknown event has been received.
   unknown,
+}
+
+enum PlayerState {
+  /// The player is currently playing
+  playing,
+
+  /// The players is paused
+  paused,
+
+  /// The player has completed its content
+  complete,
+
+  /// The player is currently stalled and need to buffer content to continue playback
+  buffering,
+
+  /// The player has not begun playback
+  idle
 }
