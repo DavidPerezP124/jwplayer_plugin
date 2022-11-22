@@ -22,15 +22,17 @@ JWPlayerPlatform get _videoPlayerPlatform {
 /// of a [JWPlayerController].
 class JWVideoPlayerValue {
   /// Constructs a video with the given values.
-  JWVideoPlayerValue({
-    this.config,
-    this.duration = Duration.zero,
-    this.size = Size.zero,
-    this.isPlaying = false,
-    this.position = Duration.zero,
-    this.isInitialized = false,
-    this.errorDescription,
-  });
+  JWVideoPlayerValue(
+      {this.config,
+      this.duration = Duration.zero,
+      this.size = Size.zero,
+      this.isPlaying = false,
+      this.position = Duration.zero,
+      this.isInitialized = false,
+      this.bufferPercentage = 0.0,
+      this.bufferPosition = 0.0,
+      this.errorDescription,
+      this.state = PlayerState.idle});
 
   /// Returns an instance for a video that hasn't been loaded.
   JWVideoPlayerValue.uninitialized()
@@ -67,6 +69,15 @@ class JWVideoPlayerValue {
   /// Indicates whether or not the video has been loaded and is ready to play.
   final bool isInitialized;
 
+  /// Indicates the percentage the content has buffer
+  final double bufferPercentage;
+
+  /// Indicates the current position for the buffer regarding the duration
+  final double bufferPosition;
+
+  /// Indicates the current state of the player.
+  final PlayerState state;
+
   /// Indicates whether or not the video is in an error state. If this is true
   /// [errorDescription] should have information about the problem.
   bool get hasError => errorDescription != null;
@@ -90,20 +101,24 @@ class JWVideoPlayerValue {
 
   /// Returns a new instance that has the same values as this current instance,
   /// except for any overrides passed in as arguments to [copyWith].
-  JWVideoPlayerValue copyWith({
-    Duration? duration,
-    Size? size,
-    Duration? position,
-    bool? isInitialized,
-    String? errorDescription,
-  }) {
+  JWVideoPlayerValue copyWith(
+      {Duration? duration,
+      Size? size,
+      Duration? position,
+      bool? isInitialized,
+      String? errorDescription,
+      double? bufferPercentage,
+      double? bufferPosition,
+      PlayerState? state}) {
     return JWVideoPlayerValue(
-      duration: duration ?? this.duration,
-      size: size ?? this.size,
-      position: position ?? this.position,
-      isInitialized: isInitialized ?? this.isInitialized,
-      errorDescription: errorDescription ?? this.errorDescription,
-    );
+        duration: duration ?? this.duration,
+        size: size ?? this.size,
+        position: position ?? this.position,
+        bufferPercentage: bufferPercentage ?? this.bufferPercentage,
+        bufferPosition: bufferPosition ?? this.bufferPosition,
+        isInitialized: isInitialized ?? this.isInitialized,
+        errorDescription: errorDescription ?? this.errorDescription,
+        state: state ?? this.state);
   }
 
   @override
@@ -199,40 +214,56 @@ class JWPlayerController extends ValueNotifier<JWVideoPlayerValue> {
   Future<int> initialize() async {
     _lifeCycleObserver?.initialize();
     _textureId = await _videoPlayerPlatform.create();
+    setupListeners(_textureId);
     return _textureId;
   }
 
   void setupListeners(int id) {
-    void eventListener(VideoEvent event) {
-      if (_isDisposed) {
-        return;
-      }
-
-      switch (event.eventType) {
-        case VideoEventType.initialized:
-          value = value.copyWith(
-            duration: event.duration,
-            size: event.size,
-            isInitialized: event.duration != null,
-            errorDescription: null,
-          );
-          break;
-        case VideoEventType.completed:
-          break;
-        case VideoEventType.unknown:
-          break;
-      }
-    }
-
     void errorListener(Object obj) {
       final JWPlatformException e = obj as JWPlatformException;
       value = JWVideoPlayerValue.erroneous(e.message!);
     }
 
-    // TODO: Enable video events listener
-    // _eventSubscription = _videoPlayerPlatform
-    //     .videoEventsFor(_textureId)
-    //     .listen(eventListener, onError: errorListener);
+    _eventSubscription = _videoPlayerPlatform
+        .videoEventsFor(_textureId)
+        .listen(_eventListener, onError: errorListener);
+  }
+
+  void _eventListener(VideoEvent event) {
+    if (_isDisposed) {
+      return;
+    }
+
+    switch (event.eventType) {
+      case VideoEventType.initialized:
+        value = value.copyWith(
+          isInitialized: true,
+          errorDescription: null,
+        );
+        break;
+      case VideoEventType.completed:
+        break;
+      case VideoEventType.time:
+        value = value.copyWith(
+          position: event.position,
+          duration: event.duration,
+          errorDescription: null,
+        );
+        break;
+      case VideoEventType.unknown:
+        break;
+      case VideoEventType.buffer:
+        value = value.copyWith(
+          bufferPercentage: event.bufferPercent,
+          bufferPosition: event.bufferPosition,
+        );
+        break;
+      case VideoEventType.state:
+        value = value.copyWith(
+          state: event.state,
+        );
+        break;
+    }
   }
 
   @override

@@ -91,4 +91,55 @@ class MethodChannelJWPlayer extends JWPlayerPlatform {
   Future<void> seek(double to, int id) async {
     viewChannel.invokeMethod<String>('seek', {"to": to, "id": id});
   }
+
+  @override
+  Stream<VideoEvent> videoEventsFor(int textureId) {
+    return _eventChannelFor(textureId)
+        .receiveBroadcastStream()
+        .map((dynamic event) {
+      final Map<dynamic, dynamic> map = event as Map<dynamic, dynamic>;
+      switch (map['event']) {
+        case 'isReady':
+          return VideoEvent(
+            eventType: VideoEventType.initialized,
+          );
+        case 'time':
+          final Map<dynamic, dynamic> values =
+              event['values'] as Map<dynamic, dynamic>;
+          // Convert position to milliseconds for more exact updates.
+          int position = ((values['position'] as double) * 1000).ceil();
+          int duration = ((values['duration'] as double)).round();
+          return VideoEvent(
+            eventType: VideoEventType.time,
+            position: Duration(milliseconds: position),
+            duration: Duration(seconds: duration),
+          );
+        case 'buffer':
+          final Map<dynamic, dynamic> values =
+              event['values'] as Map<dynamic, dynamic>;
+          // Convert position to milliseconds for more exact updates.
+          double percent = (values['percent'] as double);
+          double position = (values['position'] as double);
+          if (percent.isNaN || percent.isInfinite) {
+            return VideoEvent(eventType: VideoEventType.unknown);
+          }
+          return VideoEvent(
+              eventType: VideoEventType.buffer,
+              bufferPercent: percent,
+              bufferPosition: position);
+        case 'play':
+          return VideoEvent(
+              eventType: VideoEventType.state, state: PlayerState.playing);
+        case 'pause':
+          return VideoEvent(
+              eventType: VideoEventType.state, state: PlayerState.paused);
+        default:
+          return VideoEvent(eventType: VideoEventType.unknown);
+      }
+    });
+  }
+
+  EventChannel _eventChannelFor(int textureId) {
+    return const EventChannel('com.jwplayer.view');
+  }
 }

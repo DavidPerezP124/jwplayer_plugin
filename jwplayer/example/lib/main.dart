@@ -8,22 +8,32 @@ import 'package:jwplayer_example/get_license.dart';
 
 JWPlayerConfiguration config1 = JWPlayerConfiguration(
     file:
-        "https://devstreaming-cdn.apple.com/videos/streaming/examples/img_bipbop_adv_example_ts/master.m3u8",
-    autostart: true);
+        "https://devstreaming-cdn.apple.com/videos/streaming/examples/img_bipbop_adv_example_ts/master.m3u8");
 
 void main() async {
   await dotenv.load(fileName: ".env");
-  runApp(const MyApp());
+  runApp(const App());
 }
 
-class MyApp extends StatefulWidget {
-  const MyApp({Key? key}) : super(key: key);
+class App extends StatelessWidget {
+  const App({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return const MaterialApp(
+      title: 'Title',
+      home: PlayerApp(),
+    );
+  }
+}
+
+class PlayerApp extends StatefulWidget {
+  const PlayerApp({Key? key}) : super(key: key);
 
   @override
-  State<MyApp> createState() => _MyAppState();
+  State<PlayerApp> createState() => _PlayerAppState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _PlayerAppState extends State<PlayerApp> {
   String _platformVersion = 'Unknown';
   final JWPlayerController _controller = JWPlayerController();
 
@@ -41,7 +51,7 @@ class _MyAppState extends State<MyApp> {
     try {
       JWVideoPlayer.setLicenseKey(GetLicense.getLicense());
     } catch (e) {
-      print(e.toString());
+      debugPrint(e.toString());
     }
     try {
       platformVersion = await JWVideoPlayer.getPlatformVersion() ??
@@ -61,23 +71,30 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
           title: Text('Player version: $_platformVersion'),
         ),
-        body: Center(
-          child: ListView(
-            children: [
-              AspectRatio(
-                aspectRatio: 1.2,
+        body: Wrap(
+          crossAxisAlignment: WrapCrossAlignment.center,
+          children: [
+            ConstrainedBox(
+              // If the app aspect ratio is W:h limit width to 70%, if w:H use the total width.
+              constraints: BoxConstraints(
+                  maxWidth: height > width ? width : width * 0.7),
+              child: AspectRatio(
+                aspectRatio: 2.1,
                 child: JWVideoPlayer(
                   config: config1,
                   controller: _controller,
                 ),
-              )
-            ],
-          ),
+              ),
+            ),
+            PlayerStatusView(controller: _controller),
+          ],
         ),
         bottomNavigationBar: Padding(
           padding: const EdgeInsets.only(bottom: 15),
@@ -95,6 +112,56 @@ class _MyAppState extends State<MyApp> {
           ),
         ),
       ),
+    );
+  }
+}
+
+class PlayerStatusView extends StatelessWidget {
+  const PlayerStatusView({
+    Key? key,
+    required JWPlayerController controller,
+  })  : _controller = controller,
+        super(key: key);
+
+  final JWPlayerController _controller;
+
+  @override
+  Widget build(BuildContext context) {
+    return ValueListenableBuilder(
+      valueListenable: _controller,
+      builder: ((context, JWVideoPlayerValue value, child) => Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const Text(
+                "Player Controller Status",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              Text("position: ${value.position.toString()}"),
+              const Padding(padding: EdgeInsets.all(2)),
+              Text("duration: ${value.duration.toString()}"),
+              const Padding(padding: EdgeInsets.all(2)),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Text("buffered: "),
+                  CircularProgressIndicator(
+                    value: (value.bufferPercentage / 100),
+                    backgroundColor: Colors.transparent,
+                    valueColor:
+                        const AlwaysStoppedAnimation<Color>(Colors.grey),
+                  ),
+                  const Padding(padding: EdgeInsets.all(2)),
+                  const Text("state: "),
+                  Icon(value.state == PlayerState.playing
+                      ? Icons.play_circle
+                      : Icons.pause_circle)
+                ],
+              ),
+            ],
+          )),
     );
   }
 }

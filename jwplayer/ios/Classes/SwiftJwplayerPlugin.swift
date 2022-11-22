@@ -24,7 +24,6 @@ public class SwiftJwplayerPlugin:  NSObject, FlutterPlugin {
     }
     
     public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
-        print(call.method)
         guard let method = Methods(rawValue: call.method) else {
             result(FlutterMethodNotImplemented)
             return

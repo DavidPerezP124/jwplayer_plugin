@@ -6,17 +6,25 @@ import android.view.View
 import androidx.lifecycle.LifecycleOwner
 import com.jwplayer.pub.api.JWPlayer
 import com.jwplayer.pub.api.configuration.PlayerConfig
+import com.jwplayer.pub.api.events.EventListener
+import com.jwplayer.pub.api.events.EventType
 import com.jwplayer.pub.view.JWPlayerView
-import io.flutter.Log
+import io.flutter.plugin.common.EventChannel
+import io.flutter.plugin.common.EventChannel.EventSink
 import io.flutter.plugin.platform.PlatformView
 
 
 internal class PlayerView(context: Context?,
                           activity: Activity?,
-                          id: Int, owner: LifecycleOwner) : PlatformView, PlayerInterface {
+                          eventSink: QueueEventSink,
+                          id: Int, owner: LifecycleOwner) :
+    PlatformView,
+    PlayerInterface,
+    EventListener {
     private var playerView: JWPlayerView
     private var mPlayer: JWPlayer? = null
     private lateinit var config: PlayerConfig
+
     init {
         val layout = PlayerLayout(context!!, activity!!, owner)
         playerView = layout.mPlayerView!!
@@ -27,16 +35,19 @@ internal class PlayerView(context: Context?,
             JWPlayer.PlayerInitializationListener { jwPlayer: JWPlayer ->
                 mPlayer = jwPlayer
                 mPlayer?.setup(config)
+                setupListeners(jwPlayer, eventSink)
             })
     }
 
+    private fun setupListeners(player: JWPlayer , eventSink: QueueEventSink) {
+       player.addListeners(PlayerEventListener(eventSink), *AllEvents)
+    }
+
     override fun getView(): View {
-        playerView
         return playerView
     }
 
     override fun setConfig(config: PlayerConfig) {
-        Log.d( "MainActivity", "DebugPrint: settingConfig: $mPlayer")
         this.config = config
         mPlayer?.setup(config)
     }
@@ -54,6 +65,8 @@ internal class PlayerView(context: Context?,
     }
 
     override fun dispose() {
+        mPlayer?.stop()
+        mPlayer = null
     }
 }
 

@@ -8,8 +8,6 @@ import JWPlayerKit
 import Flutter
 import Foundation
 
-private let vmapUrlString = "https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/124319096/external/ad_rule_samples&ciu_szs=300x250&ad_rule=1&impl=s&gdfp_req=1&env=vp&output=vmap&unviewed_position_start=1&cust_params=deployment%3Ddevsite%26sample_ar%3Dpremidpost&cmsid=496&vid=short_onecue&correlator="
-
 fileprivate enum Methods: String {
     case create
     case pause
@@ -18,24 +16,32 @@ fileprivate enum Methods: String {
     case setConfig
 }
 
-class JWPlayerFactory: NSObject, FlutterPlatformViewFactory {
+class JWPlayerFactory: NSObject, FlutterPlatformViewFactory, FlutterStreamHandler {
+    
     private var messenger: FlutterBinaryMessenger
-    var views: [Int64:PlayerInterface]? = [:]
+    private var eventHandler: FlutterEventChannel?
+    private var eventSink: FlutterEventSink?
+    
+    var views: [Int64: PlayerInterface]? = [:]
     var lastView: Int64 = 0
     
     init(messenger: FlutterBinaryMessenger) {
         self.messenger = messenger
         let channel = FlutterMethodChannel(name: "playerview", binaryMessenger: messenger)
         super.init()
+        eventHandler = FlutterEventChannel(name: "com.jwplayer.view", binaryMessenger: messenger)
+        eventHandler?.setStreamHandler(self)
         channel.setMethodCallHandler(self.handle)
     }
     
     func create(withFrame frame: CGRect, viewIdentifier viewId: Int64, arguments args: Any?) -> FlutterPlatformView {
         let nativeView = JWNativeView()
         views?[viewId] = nativeView
+        nativeView.eventSink = eventSink
         lastView = viewId
 
         let view = nativeView.view()
+    
         view.frame =  frame
         return nativeView
     }
@@ -48,12 +54,10 @@ class JWPlayerFactory: NSObject, FlutterPlatformViewFactory {
         
         switch method {
         case .create:
-            print("Called create", views, lastView)
             result(lastView)
         case .play:
             let arguments = call.arguments as! [String: Any]
             let id = arguments["id"] as! Int64
-            print("Called play", views, id)
             views?[id]?.play()
         case .pause:
             let arguments = call.arguments as! [String: Any]
@@ -73,39 +77,16 @@ class JWPlayerFactory: NSObject, FlutterPlatformViewFactory {
             } catch {
                 print(error.localizedDescription)
             }
-        default:
-            result(FlutterMethodNotImplemented)
         }
     }
-}
-
-class JWNativeView: NSObject, FlutterPlatformView, PlayerInterface {
-    let controller = JWPlayerViewController()
     
-    func view() -> UIView {
-        return controller.view
+    func onListen(withArguments arguments: Any?, eventSink events: @escaping FlutterEventSink) -> FlutterError? {
+        eventSink = events
+        return nil
     }
     
-    func setConfig(config: JWPlayerConfiguration) {
-        controller.player.configurePlayer(with: config)
+    func onCancel(withArguments arguments: Any?) -> FlutterError? {
+       views?.first?.value.eventSink = nil
+       return nil
     }
-    
-    func play() {
-        controller.player.play()
-    }
-    
-    func pause() {
-        controller.player.pause()
-    }
-    
-    func stop() {
-        controller.player.stop()
-    }
-}
-
-protocol PlayerInterface: AnyObject {
-    func setConfig(config: JWPlayerConfiguration)
-    func play()
-    func pause()
-    func stop()
 }
