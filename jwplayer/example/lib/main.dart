@@ -21,19 +21,19 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       title: 'Title',
-      home: MyApp(),
+      home: PlayerApp(),
     );
   }
 }
 
-class MyApp extends StatefulWidget {
-  const MyApp({Key? key}) : super(key: key);
+class PlayerApp extends StatefulWidget {
+  const PlayerApp({Key? key}) : super(key: key);
 
   @override
-  State<MyApp> createState() => _MyAppState();
+  State<PlayerApp> createState() => _PlayerAppState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _PlayerAppState extends State<PlayerApp> {
   String _platformVersion = 'Unknown';
   final JWPlayerController _controller = JWPlayerController();
 
@@ -93,8 +93,7 @@ class _MyAppState extends State<MyApp> {
                 ),
               ),
             ),
-            SizedBox(
-                width: 200, child: PlayerStatusView(controller: _controller)),
+            PlayerStatusView(controller: _controller),
           ],
         ),
         bottomNavigationBar: Padding(
@@ -143,6 +142,7 @@ class PlayerStatusView extends StatelessWidget {
               Text("duration: ${value.duration.toString()}"),
               const Padding(padding: EdgeInsets.all(2)),
               Row(
+                mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
