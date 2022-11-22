@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:jwplayer/configuration/jwplayer_configuration.dart';
-import 'package:jwplayer/player_controller.dart';
+import 'package:jw_video_player/configuration/jwplayer_configuration.dart';
+import 'package:jw_video_player/player_controller.dart';
 
 class JWVideoPlayer extends StatefulWidget {
   /// Uses the given [controller] for all video rendered in this widget.

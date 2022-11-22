@@ -1,4 +1,4 @@
-name: jwplayer_example
+name: jw_video_player_example
 description: Demonstrates how to use the jwplayer plugin.
 
 # The following line prevents the package from being accidentally published to
@@ -18,7 +18,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  jwplayer:
+  jw_video_player:
     # When depending on this package from a real application you should use:
     #   jwplayer: ^x.y.z
     # See https://dart.dev/tools/pub/dependencies#version-constraints

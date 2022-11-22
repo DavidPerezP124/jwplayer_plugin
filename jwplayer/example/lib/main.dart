@@ -3,8 +3,8 @@ import 'dart:async';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:jwplayer/jwplayer.dart';
-import 'package:jwplayer_example/get_license.dart';
+import 'package:jw_video_player/jwplayer.dart';
+import 'package:jw_video_player_example/get_license.dart';
 
 JWPlayerConfiguration config1 = JWPlayerConfiguration(
     file:

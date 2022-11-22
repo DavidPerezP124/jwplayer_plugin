@@ -3,8 +3,8 @@ import 'dart:io';
 
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:jwplayer/jwplayer.dart';
-import 'package:jwplayer/mobile/jwplayer_method_channel.dart';
+import 'package:jw_video_player/jwplayer.dart';
+import 'package:jw_video_player/mobile/jwplayer_method_channel.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 import 'helper/file_tool.dart';

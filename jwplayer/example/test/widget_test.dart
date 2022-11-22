@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:jwplayer/jwplayer.dart';
+import 'package:jw_video_player/jwplayer.dart';
 
-import 'package:jwplayer_example/main.dart';
+import 'package:jw_video_player_example/main.dart';
 
 void main() {
   testWidgets('Verify Platform version', (WidgetTester tester) async {

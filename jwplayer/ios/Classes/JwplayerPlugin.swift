@@ -9,11 +9,11 @@ fileprivate enum Methods: String {
     case `init`
 }
 
-public class SwiftJwplayerPlugin:  NSObject, FlutterPlugin {
+public class JwplayerPlugin:  NSObject, FlutterPlugin {
 
     public static func register(with registrar: FlutterPluginRegistrar) {
         let channel = FlutterMethodChannel(name: "jwplayer", binaryMessenger: registrar.messenger())
-        let instance = SwiftJwplayerPlugin()
+        let instance = JwplayerPlugin()
         // TODO: Create API for setting this on Flutter side.
 
         let factory = JWPlayerFactory(messenger: registrar.messenger())
