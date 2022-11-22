@@ -5,7 +5,7 @@
 Pod::Spec.new do |s|
   s.name             = 'jw_video_player'
   s.version          = '0.0.1'
-  s.summary          = 'A new Flutter plugin project.'
+  s.summary          = 'A jwplayer plugin for iOS'
   s.description      = <<-DESC
 A new Flutter plugin project.
                        DESC
