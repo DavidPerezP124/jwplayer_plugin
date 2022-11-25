@@ -1,5 +1,5 @@
 ### An unofficial flutter plugin for the JWPlayer platform
-###Note: This is currently in beta
+### Note: This is currently in beta
 
 Use this package for embedding a native video player for iOS, Android and Web.
 
