@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.lifecycle.LifecycleOwner
 import com.jwplayer.pub.api.JWPlayer
-import com.jwplayer.pub.api.JWPlayer.PlayerInitializationListener
 import com.jwplayer.pub.api.configuration.PlayerConfig
 import com.jwplayer.pub.view.JWPlayerView
 
@@ -40,21 +39,6 @@ class ViewLayout (
     private fun initPlayer() {
         mPlayerView = JWPlayerView(context)
         this.addView(mPlayerView,0, LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))
-        mPlayerView!!.getPlayerAsync(
-            context,
-            owner,
-            PlayerInitializationListener { jwPlayer: JWPlayer ->
-                mPlayer = jwPlayer
-                setupPlayer()
-            })
-    }
-
-    private fun setupPlayer() {
-        val config = PlayerConfig.Builder()
-            .file("https://devstreaming-cdn.apple.com/videos/streaming/examples/img_bipbop_adv_example_ts/master.m3u8")
-            .build()
-        // Call setup before binding the ViewModels because setup updates the ViewModels
-        mPlayer!!.setup(config)
     }
 
     init {
