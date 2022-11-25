@@ -5,13 +5,13 @@ Use this package for embedding a native video player for iOS, Android and Web.
 
 The interfaces in this package are:
 
-`JWVideoPlayer`: The video player widget
-`JWPlayerController`: The controller for the player, for APIs such as play, pause, stop. And to listen to value updates from the player.
-`JWPlayerConfiguration`: A configuration that will be used to configure the player.
+* `JWVideoPlayer`: The video player widget
+* `JWPlayerController`: The controller for the player, for APIs such as play, pause, stop. And to listen to value updates from the player.
+* `JWPlayerConfiguration`: A configuration that will be used to configure the player.
 ___
 ### Example
 See [example](https://github.com/DavidPerezP124/jwplayer_plugin/tree/main/jwplayer/example) for an implementation of the library.
-
+__
 ### Usage
 ```dart
 // If you are using mobile, 
