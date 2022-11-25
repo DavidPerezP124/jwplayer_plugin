@@ -11,8 +11,10 @@ The interfaces in this package are:
 ___
 ### Example
 See [example](https://github.com/DavidPerezP124/jwplayer_plugin/tree/main/jwplayer/example) for an implementation of the library.
-__
-### Usage
+___
+
+### Usage
+
 ```dart
 // If you are using mobile, 
 // you need to set your licence somewhere in the app.
@@ -37,7 +39,7 @@ class App extends StatelessWidget {
     }
 }
 ```
-## Requirement for web
+### Requirement for web
 On the dart side it is the same as above, except no license is required but you need to add the script for the player, that you can get from your [JWPlayer dashboard](https://dashboard.jwplayer.com) or using the [JWPlayer Management API](https://docs.jwplayer.com/platform/reference/get_v2-sites-site-id-players-player-id-).
 ```html
 <!DOCTYPE html>
@@ -57,7 +59,7 @@ On the dart side it is the same as above, except no license is required but you 
 ---
 More examples will be added.
 
-### Reporting issues
+## Reporting issues
 You can create a new issue on the [plugin repo](https://github.com/DavidPerezP124/jwplayer_plugin).
 
 0.0.1
