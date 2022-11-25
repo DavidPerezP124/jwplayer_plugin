@@ -11,7 +11,7 @@ class GetLicense {
       case TargetPlatform.iOS:
         return dotenv.get("IOS_LICENSE");
       default:
-        return dotenv.get("WEB_LICENSE");
+        return "";
     }
   }
 }

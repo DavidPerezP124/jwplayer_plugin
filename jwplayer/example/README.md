@@ -1,16 +1,25 @@
 # jwplayer_example
 
-Demonstrates how to use the jwplayer plugin.
+To run the example app you need to add a .env file to the `/example` dir, i.e: `/example/.env`.
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+The `.env` file should contain the following:
+```txt
+ANDROID_LICENSE="{YOUR_ANDROID_V4_LICENSE}"
+IOS_LICENSE="{YOUR_iOS_V4_LICENSE}"
+```
+To run on web, you need to add a player script to the `example/web/index.html` file:
+```html
+<!DOCTYPE html>
+<html>
+<head>
+  ...
+  <!-- Set your JWPlayer script here -->
+  <!-- This should be a player from the JW dashboard or from requesting it more info here https://docs.jwplayer.com/platform/docs/players-get-started -->
+  <script src="https://cdn.jwplayer.com/libraries/{PLAYER_ID}.js"></script>
+  ...
+</head>
+<body>
+  ...
+</body>
+</html>
+```
