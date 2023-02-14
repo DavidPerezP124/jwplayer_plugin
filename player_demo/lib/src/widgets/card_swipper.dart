@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:card_swiper/card_swiper.dart';
 
@@ -14,7 +12,7 @@ class CardSwipper extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    return Container(
+    return SizedBox(
       width: double.infinity,
       height: size.height * 0.5,
       // color: Colors.red,
@@ -45,7 +43,7 @@ class CardSwipper extends StatelessWidget {
                 Navigator.pushNamed(context, 'details', arguments: video),
             child: Hero(
               tag: video.heroId!,
-              child: _CardWidget(video: video),
+              child: _CardWidget(key: key, video: video),
             ),
           );
         },
@@ -67,7 +65,7 @@ class _CardWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         child: GridTile(
           footer: Container(
-            padding: EdgeInsets.all(8),
+            padding: const EdgeInsets.all(8),
             color: Colors.black.withOpacity(0.4),
             child: Text(
               video.title,

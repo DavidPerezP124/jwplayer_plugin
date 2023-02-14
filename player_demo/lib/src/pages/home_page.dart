@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 // import 'package:flutter_demo/src/widgets/video-slider.dart';
 import '../providers/videos_provider.dart';
 import '../widgets/card_swipper.dart';
-import '../widgets/video-slider.dart';
+import '../widgets/video_slider.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -17,11 +17,11 @@ class HomePage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Videos'),
+        title: const Text('Videos'),
         elevation: 0,
         actions: [
           IconButton(
-            icon: Icon(Icons.search_outlined),
+            icon: const Icon(Icons.search_outlined),
             onPressed: () {},
           )
         ],

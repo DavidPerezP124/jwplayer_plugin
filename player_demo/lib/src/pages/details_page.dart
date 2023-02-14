@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/video_info.dart';
-import '../widgets/video_player_sreen.dart';
+import '../widgets/video_player_screen.dart';
 
 class DetailsPage extends StatelessWidget {
   const DetailsPage({super.key});
@@ -15,12 +15,12 @@ class DetailsPage extends StatelessWidget {
         // appBar: AppBar(),
         body: CustomScrollView(
       slivers: [
-        _CustomAppBar(video: video),
+        _CustomAppBar(key: key, video: video),
         SliverList(
           delegate: SliverChildListDelegate([
-            _PosterAndTitle(video: video),
-            _OverViewPlayer(video: video),
-            SizedBox(height: 20),
+            _PosterAndTitle(key: key, video: video),
+            _OverViewPlayer(key: key, video: video),
+            const SizedBox(height: 20),
             VideoPlayerScreen(video: video)
           ]),
         )
@@ -43,20 +43,20 @@ class _CustomAppBar extends StatelessWidget {
       pinned: true,
       flexibleSpace: FlexibleSpaceBar(
         centerTitle: true,
-        titlePadding: EdgeInsets.all(0),
+        titlePadding: const EdgeInsets.all(0),
         title: Container(
           width: double.infinity,
           alignment: Alignment.bottomCenter,
-          padding: EdgeInsets.only(bottom: 5, left: 10, right: 10),
+          padding: const EdgeInsets.only(bottom: 5, left: 10, right: 10),
           color: Colors.black45,
           child: Text(
             video.title,
-            style: TextStyle(fontSize: 16),
+            style: const TextStyle(fontSize: 16),
             textAlign: TextAlign.center,
           ),
         ),
         background: FadeInImage(
-          placeholder: AssetImage('assets/loading.gif'),
+          placeholder: const AssetImage('assets/loading.gif'),
           // image: AssetImage('assets/no-image.jpg'),
           image: NetworkImage(video.image ?? ""),
           fit: BoxFit.cover,
@@ -86,7 +86,6 @@ class _PosterAndTitle extends StatelessWidget {
             borderRadius: BorderRadius.circular(20),
             child: FadeInImage(
               placeholder: const AssetImage('assets/no-image.jpg'),
-              // image: AssetImage('assets/no-image.jpg'),
               image: NetworkImage(video.image ?? ""),
               fit: BoxFit.cover,
               width: 130,
@@ -101,32 +100,32 @@ class _PosterAndTitle extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(video.title,
-                  style: textTheme.headline5,
+                  style: textTheme.headlineSmall,
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2),
-              Text('${_printDuration(Duration(seconds: video.duration ?? 0))}',
-                  style: textTheme.subtitle2,
+              Text(_printDuration(Duration(seconds: video.duration ?? 0)),
+                  style: textTheme.titleSmall,
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2),
               Row(
                 children: [
                   // Icon( Icons.star_outline, size: 15, color: Colors.grey),
                   // SizedBox(width: 5),
-                  Text('${video.tags ?? ""}', style: textTheme.caption)
+                  Text(video.tags ?? "", style: textTheme.bodySmall)
                 ],
               ),
-              // Container(
-              //   padding: EdgeInsets.symmetric(vertical: 10),
-              //   child: OutlinedButton(
-              //     onPressed: () {
-              //       Navigator.pushNamed(context, 'video', arguments: video);
-              //     },
-              //     child: Text('Play video'),
-              //     style: OutlinedButton.styleFrom(
-              //       primary: Colors.black54,
-              //     ),
-              //   ),
-              // )
+              Container(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: OutlinedButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, 'video', arguments: video);
+                  },
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: Colors.black54,
+                  ),
+                  child: const Text('Play video'),
+                ),
+              )
             ],
           ),
         )
@@ -150,11 +149,11 @@ class _OverViewPlayer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: Text(
         video.description ?? "Video Description",
         textAlign: TextAlign.justify,
-        style: Theme.of(context).textTheme.subtitle1,
+        style: Theme.of(context).textTheme.titleMedium,
       ),
     );
   }

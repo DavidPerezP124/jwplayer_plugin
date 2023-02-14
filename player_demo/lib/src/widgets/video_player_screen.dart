@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jwplayer/jwplayer.dart';
+import 'package:jw_video_player/jwplayer.dart';
 
 import '../models/video_info.dart';
 import '../utils/license_util.dart';

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:player_demo/src/utils/license_util.dart';
 import 'package:provider/provider.dart';
 
 import 'src/pages/details_page.dart';
@@ -24,7 +23,7 @@ class AppState extends StatelessWidget {
           lazy: false,
         )
       ],
-      child: MyApp(),
+      child: const MyApp(),
     );
   }
 }
@@ -44,6 +43,6 @@ class MyApp extends StatelessWidget {
         },
         // theme: ThemeData.dark(),
         theme: ThemeData.light()
-            .copyWith(appBarTheme: AppBarTheme(color: Colors.black87)));
+            .copyWith(appBarTheme: const AppBarTheme(color: Colors.black87)));
   }
 }

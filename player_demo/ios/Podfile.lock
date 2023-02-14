@@ -1,13 +1,13 @@
 PODS:
   - Flutter (1.0.0)
-  - jwplayer (0.0.1):
+  - jw_video_player (0.0.1):
     - Flutter
     - JWPlayerKit
-  - JWPlayerKit (4.6.1)
+  - JWPlayerKit (4.9.1)
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
-  - jwplayer (from `.symlinks/plugins/jwplayer/ios`)
+  - jw_video_player (from `.symlinks/plugins/jw_video_player/ios`)
 
 SPEC REPOS:
   trunk:
@@ -16,13 +16,13 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   Flutter:
     :path: Flutter
-  jwplayer:
-    :path: ".symlinks/plugins/jwplayer/ios"
+  jw_video_player:
+    :path: ".symlinks/plugins/jw_video_player/ios"
 
 SPEC CHECKSUMS:
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
-  jwplayer: 5d2e836734c0f478e69037dd8187085c7d21e40b
-  JWPlayerKit: b4035d38ce4ed385ec2afdc69b9cb78943a070dc
+  jw_video_player: bc3b8d36dcbeeedae703049ebc7a0bfdd79b1ec8
+  JWPlayerKit: f1b14210bc0d13db9a639eb0a72f8b01feec3f7b
 
 PODFILE CHECKSUM: ef19549a9bc3046e7bb7d2fab4d021637c0c58a3
 
