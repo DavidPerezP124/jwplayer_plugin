@@ -2,25 +2,30 @@ package jwplayer.jwplayer
 
 import com.jwplayer.pub.api.configuration.PlayerConfig
 import com.jwplayer.pub.api.media.ads.AdBreak
+import com.jwplayer.pub.api.media.playlists.ExternalMetadata
 import com.jwplayer.pub.api.media.playlists.PlaylistItem
 import org.json.JSONObject
 
 class ConfigurationBuilder {
 
-    fun normalizeAdConfig(config: JSONObject) : JSONObject {
+    fun normalizeAdConfig(config: JSONObject): JSONObject {
         val advertising: JSONObject = config.getJSONObject("advertising")
+        var config: JSONObject = advertising
+
         if (advertising.has("client")) {
-            if ((advertising["client"] as String).contains("googima")) {
-                advertising.put("client", "GOOGIMA")
-            } else if ((advertising["client"] as String).contains("dai")) {
-                advertising.put("client", "IMA_DAI")
-            } else if ((advertising["client"] as String).contains("vast")) {
-                advertising.put("client", "VAST")
-            } else if ((advertising["client"] as String).contains("freewheel")) {
-                advertising.put("client", "FREEWHEEL")
+            val client = advertising.getString("client")
+            with(client) {
+                when {
+                    contains("vast") -> config.put("client", "VAST")
+                    contains("googima") -> config.put("client", "GOOGIMA")
+                    contains("dai") -> config.put("client", "IMA_DAI")
+                    contains("freewheel") -> config.put("client", "FREEWHEEL")
+                    else -> {}
+                }
             }
-            config.put("advertising", advertising)
         }
+        config.put("advertising", advertising)
+
         return config
     }
 
@@ -44,11 +49,11 @@ class ConfigurationBuilder {
         if (config.has("mediaid")) builder.mediaId(config.getString("mediaid"))
         // Set Duration
         if (config.has("duration")) builder.duration(config.getInt("duration"))
-        // Get the Ad Schedule
+        // If an Ad Schedule is specified,  parse and set the schedule
         if (config.has("adSchedule")) builder.adSchedule(getAdSchedule(config))
+        // If external metadata is specified, parse and set the external metadata
+        if (config.has("externalMetadata")) builder.externalMetadata(getExternalMetadata(config))
 
-
-            .externalMetadata()
             .httpHeaders()
             .imaDaiSettings()
             .recommendations()
@@ -56,7 +61,22 @@ class ConfigurationBuilder {
             .sources()
             .tracks()
 
-        return  builder.build()
+        return builder.build()
+    }
+
+    private fun getExternalMetadata(config: JSONObject): List<ExternalMetadata> {
+        var metadata = mutableList<ExternalMetadata>
+        val configMetadata = config.getJSONObject("externalMetadata")
+        (0 until configMetadata.length()).forEach {
+            val metadataJSON = configMetadata.getJSONObject(it)
+            val newMetadata = ExternalMetadata(
+                configMetadata.getInt(it),
+                configMetadata.getDouble("startTime"),
+                configMetadata.getDouble("endTime")
+            )
+            metadata.add(newMetadata)
+        }
+        return metadata
     }
 
     private fun getAdSchedule(config: JSONObject): List<AdBreak> {
@@ -73,7 +93,6 @@ class ConfigurationBuilder {
     }
 
 
-
     fun toPlayerConfig(config: JSONObject): PlayerConfig {
         var builder = PlayerConfig.Builder()
         // Retrieve the file if a file exists
@@ -82,7 +101,7 @@ class ConfigurationBuilder {
         if (config.has("playlist")) builder.playlist(getPlaylist(config))
         // Retrieve the advertising config if it exits
         if (config.has("advertising")) builder.advertisingConfig()
-    
+
         builder.useTextureView(true)
         return builder.build()
     }

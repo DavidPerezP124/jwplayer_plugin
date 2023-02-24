@@ -1,6 +1,6 @@
 name: jw_video_player
-description: A flutter plugin for the JWPlayer platform.
-version: 0.0.1
+description: A flutter plugin for the JWPlayer platform. JWPlayer is a leading service for video solutions, allowing monetization of content and analytics of user engagement among other great features. This package is a wrapper for the web JWP hoster player and the native mobile SDKs.
+version: 0.0.12
 homepage: 
 repository: https://github.com/DavidPerezP124/jwplayer_plugin/tree/main
 
