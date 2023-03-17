@@ -1,6 +1,12 @@
 package jwplayer.jwplayer
 
 import com.jwplayer.pub.api.configuration.PlayerConfig
+import com.jwplayer.pub.api.configuration.ads.AdvertisingConfig
+import com.jwplayer.pub.api.configuration.ads.VastAdvertisingConfig
+import com.jwplayer.pub.api.configuration.ads.VmapAdvertisingConfig
+import com.jwplayer.pub.api.configuration.ads.ima.ImaAdvertisingConfig
+import com.jwplayer.pub.api.configuration.ads.dai.ImaDaiAdvertisingConfig
+
 import com.jwplayer.pub.api.media.ads.AdBreak
 import com.jwplayer.pub.api.media.playlists.ExternalMetadata
 import com.jwplayer.pub.api.media.playlists.PlaylistItem
@@ -8,25 +14,23 @@ import org.json.JSONObject
 
 class ConfigurationBuilder {
 
-    fun normalizeAdConfig(config: JSONObject): JSONObject {
+    private fun extractClientBuilder(config: JSONObject): AdvertisingConfig.Builder {
         val advertising: JSONObject = config.getJSONObject("advertising")
-        var config: JSONObject = advertising
+        var adConfig: AdvertisingConfig.Builder = VastAdvertisingConfig.Builder()
 
         if (advertising.has("client")) {
             val client = advertising.getString("client")
             with(client) {
                 when {
-                    contains("vast") -> config.put("client", "VAST")
-                    contains("googima") -> config.put("client", "GOOGIMA")
-                    contains("dai") -> config.put("client", "IMA_DAI")
-                    contains("freewheel") -> config.put("client", "FREEWHEEL")
+                    contains("vast") -> adConfig = VastAdvertisingConfig.Builder()
+                    contains("vmap") -> adConfig = VmapAdvertisingConfig.Builder()
+                    contains("googima") -> adConfig = ImaAdvertisingConfig.Builder()
+                    contains("dai") -> adConfig = ImaDaiAdvertisingConfig.Builder()
                     else -> {}
                 }
             }
         }
-        config.put("advertising", advertising)
-
-        return config
+        return adConfig
     }
 
     private fun getFile(config: JSONObject): String {
@@ -53,9 +57,6 @@ class ConfigurationBuilder {
         if (config.has("adSchedule")) builder.adSchedule(getAdSchedule(config))
         // If external metadata is specified, parse and set the external metadata
         if (config.has("externalMetadata")) builder.externalMetadata(getExternalMetadata(config))
-
-            .httpHeaders()
-            .imaDaiSettings()
             .recommendations()
             .startTime()
             .sources()
@@ -79,19 +80,35 @@ class ConfigurationBuilder {
         return metadata
     }
 
+    private fun getAdvertising(config: JSONObject): AdvertisingConfig {
+        var builder = extractClientBuilder(config)
+        when (builder) {
+            is VmapAdvertisingConfig -> {
+
+            }
+            else -> {}
+        }
+        return builder.build()
+    }
+
     private fun getAdSchedule(config: JSONObject): List<AdBreak> {
-        val schedule = config.getJSONObject("adschedule")
+        val schedule = config.getJSONObject("schedule")
         var adBreaks = mutableList<AdBreak>
 
         (0 until schedule.length()).forEach {
-            var tag = schedule.getJSONObject(it)
+            var adBreak = schedule.getJSONObject(it)
             var builder = AdBreak.Builder()
-                .adType()
+                    .tag(adBreak.getString("tag"))
+                    .offset(adBreak.getString("offset"))
+            if (adBreak.has("customParams") && adBreak.get("customParams") is Map<*, *>) {
+                builder.customParams(adBreak.get("customParams") as Map<String, String>)
+            }
+            val result = builder.build()
+            adBreaks = append(adBreaks, result)
         }
 
         return adBreaks
     }
-
 
     fun toPlayerConfig(config: JSONObject): PlayerConfig {
         var builder = PlayerConfig.Builder()
@@ -100,7 +117,7 @@ class ConfigurationBuilder {
         // Retrieve the playlist if it exists
         if (config.has("playlist")) builder.playlist(getPlaylist(config))
         // Retrieve the advertising config if it exits
-        if (config.has("advertising")) builder.advertisingConfig()
+        if (config.has("advertising")) builder.advertisingConfig(getAdvertising(config))
 
         builder.useTextureView(true)
         return builder.build()

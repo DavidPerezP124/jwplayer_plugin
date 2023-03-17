@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:jw_video_player/jwplayer.dart';
 import 'package:jw_video_player/mobile/jwplayer_method_channel.dart';
@@ -117,5 +118,28 @@ void main() {
     String? file =
         config.playlist?.firstWhere((element) => element.file != null).file;
     assert(file != null);
+    assert(config.advertising?.tag != null);
+    assert(config.analytics?.client != null);
+    assert(config.related?.client != null);
+  });
+
+  test('Test player configuraiton', () {
+    // Given a JSON config.
+    dynamic jsonConfig;
+    try {
+      jsonConfig = TestFile()
+          .searchFile("${Directory.current.path}/test/assets/full_config.json")
+          .asJSON();
+    } catch (e) {
+      fail(e.toString());
+    }
+    // When we try to parse the config.
+    JWPlayerConfiguration config =
+        JWPlayerConfiguration.fromJson(jsonEncode(jsonConfig));
+    JWVideoPlayer player = JWVideoPlayer(
+      config: config,
+    );
+    assert(player.config == config);
+    player
   });
 }
