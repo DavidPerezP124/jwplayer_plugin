@@ -33,10 +33,10 @@ final class QueueEventSink: EventChannel.EventSink  {
 
         for (event in eventQueue) {
             when (event) {
-                event is EndOfStreamEvent -> {
+                (event is EndOfStreamEvent) -> {
                     mDelegate?.endOfStream()
                 }
-                event is ErrorEvent -> {
+                (event is ErrorEvent) -> {
                     val errorEvent = event as ErrorEvent
                     mDelegate?.error(errorEvent.code, errorEvent.message, errorEvent.details)
                 }
