@@ -1,17 +1,21 @@
 ### An unofficial flutter plugin for the JWPlayer platform
-### Note: This is currently in beta
+###Note: This is currently in beta
+### Package Version:
+*  0.0.2
+
+___
+Description:
 
 Use this package for embedding a native video player for iOS, Android and Web.
 
 The interfaces in this package are:
 
-* `JWVideoPlayer`: The video player widget
-* `JWPlayerController`: The controller for the player, for APIs such as play, pause, stop. And to listen to value updates from the player.
-* `JWPlayerConfiguration`: A configuration that will be used to configure the player.
+`JWVideoPlayer`: The video player widget
+`JWPlayerController`: The controller for the player, for APIs such as play, pause, stop. And to listen to value updates from the player.
+`JWPlayerConfiguration`: A configuration that will be used to configure the player.
 ___
 ### Example
 See [example](https://github.com/DavidPerezP124/jwplayer_plugin/tree/main/jwplayer/example) for an implementation of the library.
-___
 
 ### Usage
 
@@ -39,7 +43,7 @@ class App extends StatelessWidget {
     }
 }
 ```
-### Requirement for web
+## Requirement for web
 On the dart side it is the same as above, except no license is required but you need to add the script for the player, that you can get from your [JWPlayer dashboard](https://dashboard.jwplayer.com) or using the [JWPlayer Management API](https://docs.jwplayer.com/platform/reference/get_v2-sites-site-id-players-player-id-).
 ```html
 <!DOCTYPE html>
@@ -59,15 +63,17 @@ On the dart side it is the same as above, except no license is required but you 
 ---
 More examples will be added.
 
-## Reporting issues
+### Reporting issues
 You can create a new issue on the [plugin repo](https://github.com/DavidPerezP124/jwplayer_plugin).
 
-0.0.1
+
+___
+Current and planned features.
 
 - [ ] Full configuration support
-- [ ] Wiki addition for plugin
+- [X] Wiki addition for plugin
 - [ ] Native players with Flutter UI
-- [ ] API interface for supported platforms
-- [ ] Delegate methods for supported platforms
+- [X] API interface for supported platforms
+- [X] Delegate methods for supported platforms
 - [ ] DRM implementations
 - [ ] Cookie headers

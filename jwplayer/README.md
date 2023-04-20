@@ -1,5 +1,10 @@
 ### An unofficial flutter plugin for the JWPlayer platform
 ###Note: This is currently in beta
+### Package Version:
+*  0.0.2
+
+___
+Description:
 
 Use this package for embedding a native video player for iOS, Android and Web.
 
@@ -12,7 +17,8 @@ ___
 ### Example
 See [example](https://github.com/DavidPerezP124/jwplayer_plugin/tree/main/jwplayer/example) for an implementation of the library.
 
-### Usage
+### Usage
+
 ```dart
 // If you are using mobile, 
 // you need to set your licence somewhere in the app.
@@ -60,12 +66,14 @@ More examples will be added.
 ### Reporting issues
 You can create a new issue on the [plugin repo](https://github.com/DavidPerezP124/jwplayer_plugin).
 
-0.0.1
+
+___
+Current and planned features.
 
 - [ ] Full configuration support
-- [ ] Wiki addition for plugin
+- [X] Wiki addition for plugin
 - [ ] Native players with Flutter UI
-- [ ] API interface for supported platforms
-- [ ] Delegate methods for supported platforms
+- [X] API interface for supported platforms
+- [X] Delegate methods for supported platforms
 - [ ] DRM implementations
 - [ ] Cookie headers
